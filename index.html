@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Παιδικές Εκδηλώσεις</title>
+<style>
+:root{
+  --bg:#eef2f6; --card:#ffffff; --ink:#10202e; --muted:#46586a; --line:#d7e0e8;
+  --accent:#0b5394; --accent-ink:#ffffff; --warn:#8a1c1c; --sold:#8b949c;
+  --radius:14px; --shadow:0 1px 2px rgba(16,32,46,.08),0 2px 8px rgba(16,32,46,.06);
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); overflow-x:hidden;
+  font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 12px 56px}
+header.site{padding:0 0 6px}
+h1{font-size:1.4rem;line-height:1.25;margin:0 0 4px}
+.sub{margin:0;color:var(--muted);font-size:.85rem}
+.counts{margin:6px 0 0;font-size:.9rem;font-weight:600;color:var(--accent)}
+.hrow{display:flex;align-items:flex-start;gap:10px}
+.hrow > div{flex:1 1 auto;min-width:0}
+/* --- banner --------------------------------------------------------------- */
+@media (max-width:999px){ .hero{margin-left:-12px;margin-right:-12px} }
+.hero{position:relative;overflow:hidden;border-radius:0 0 22px 22px;
+  background:linear-gradient(135deg,#0e4f7d 0%,#1a7fb6 48%,#28a4a0 100%);
+  color:#fff;box-shadow:0 10px 26px rgba(13,59,90,.22);padding:18px 16px 14px}
+.hero::before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;
+  right:-120px;top:-190px;
+  background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.30),rgba(255,255,255,0) 70%)}
+.hero::after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;
+  left:-90px;bottom:-160px;
+  background:radial-gradient(circle at 60% 40%,rgba(255,214,102,.38),rgba(255,214,102,0) 72%)}
+.hero .hrow,.hero .counts,.hero .updated{position:relative}
+.hero .kicker{margin:0 0 5px;font-size:.7rem;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:#cde8ff}
+.hero h1{font-size:1.6rem;line-height:1.12;margin:0 0 6px;color:#fff;
+  text-shadow:0 1px 3px rgba(4,32,52,.28)}
+.hero .sub{margin:0;color:#e8f5ff;font-size:.85rem}
+.hero .counts{margin:9px 0 0;color:#fff;font-weight:700;font-size:.84rem}
+.hero .updated{margin:8px 0 0;font-size:.74rem;color:#d5ebff}
+.hero .gear{background:#fff;border:1px solid #fff;color:#0e4f7d;box-shadow:0 2px 8px rgba(4,32,52,.22)}
+.hero .gear:hover{background:#f2f8ff}
+.hero .gear[aria-expanded="true"]{background:#dceaf7;border-color:#dceaf7}
+.gear{flex:0 0 auto;width:44px;height:44px;border:1px solid var(--line);background:var(--card);
+  border-radius:12px;font-size:1.15rem;line-height:1;cursor:pointer;box-shadow:var(--shadow)}
+.gear[aria-expanded="true"]{border-color:var(--accent);background:#e8f0f8}
+.prefs{background:var(--card);border:1px solid var(--accent);border-radius:var(--radius);
+  padding:12px;margin:10px 0 0;box-shadow:var(--shadow)}
+.ptitle{font-size:.95rem;margin:0 0 8px}
+.pnote{margin:8px 0 0;font-size:.78rem;color:var(--muted)}
+@media (min-width:1000px){ .wrap{max-width:880px} }
+.badge--hidden{background:#eceff2;color:#5a666f}
+.hidebtn{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:9px;
+  min-height:32px;min-width:32px;padding:3px 9px;font:inherit;font-size:.78rem;cursor:pointer}
+.hidebtn:hover{color:#b4453c;border-color:#e2b5b5;background:#fdf5f4}
+.unhidebtn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:9px;
+  min-height:32px;padding:3px 9px;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+.filters{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  margin:12px 0;box-shadow:var(--shadow);overflow:hidden}
+.fsum{display:flex;align-items:center;gap:8px;min-height:48px;padding:10px 12px;cursor:pointer;
+  font-weight:700;font-size:.95rem;color:var(--accent);list-style:none}
+.fsum::-webkit-details-marker{display:none}
+.fsum::after{content:"▾";margin-left:auto;color:var(--muted);font-size:.9rem}
+.filters[open] .fsum::after{content:"▴"}
+.fcount{display:none;font-size:.75rem;font-weight:800;background:var(--accent);color:var(--accent-ink);
+  border-radius:999px;padding:2px 8px}
+.fcount[data-n]:not([data-n="0"]){display:inline-block}
+.fbody{padding:0 12px 12px;border-top:1px solid var(--line);padding-top:10px}
+.frow{margin:0 0 12px}
+.frow:last-child{margin-bottom:0}
+.lbl{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin:0 0 4px}
+input[type=search],select{
+  width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--line);
+  border-radius:10px;background:#fff;color:var(--ink);font-size:1rem
+}
+input[type=search]:focus,select:focus,.chip:focus-visible,.clear:focus-visible,
+.act:focus-visible,.lnk:focus-visible,.lnk-s:focus-visible,summary:focus-visible,
+.views button:focus-visible,.calnav button:focus-visible,.day[role=button]:focus-visible{
+  outline:3px solid #7fb2e5;outline-offset:2px
+}
+fieldset.fs{border:0;padding:0;margin:0 0 12px}
+fieldset.fs legend{font-size:.8rem;font-weight:700;color:var(--muted);padding:0 0 4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);
+  font:inherit;font-size:.95rem;cursor:pointer;text-align:left
+}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two > div:first-child{grid-column:1 / -1}
+@media (min-width:560px){.two{grid-template-columns:1fr 1fr 1fr}.two > div:first-child{grid-column:auto}}
+.toggle{display:flex;align-items:center;gap:10px;min-height:44px;font-size:.95rem;cursor:pointer}
+.toggle input{width:22px;height:22px;margin:0}
+.trow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.clear{min-height:44px;padding:8px 16px;border:1px solid var(--accent);background:#fff;
+  color:var(--accent);border-radius:10px;font-weight:700;cursor:pointer}
+.clear:active{background:#e8f0f8}
+.results{margin:6px 2px;font-size:.9rem;color:var(--muted)}
+.cards{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c,#dbe4ec);
+  border-radius:var(--radius);padding:12px;box-shadow:var(--shadow)}
+.cbody{display:flex;gap:10px;align-items:flex-start}
+.ctext{flex:1 1 auto;min-width:0}
+.thumb{flex:0 0 auto;width:58px;height:58px;border-radius:12px;overflow:hidden;background:#eef2f6;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;line-height:1}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:480px){ .thumb{width:48px;height:48px;font-size:1.25rem;border-radius:10px}
+  .hero{padding:14px 12px 12px} .hero h1{font-size:1.4rem} }
+.crow{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;margin:0 0 3px}
+.crow .ctitle{margin:0;flex:1 1 auto}
+.badges{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.tlink{background:none;border:0;padding:0;margin:0;font:inherit;font-weight:700;color:var(--ink);
+  text-align:left;cursor:pointer}
+.tlink:hover{color:var(--accent)}
+.ctitle{font-size:1rem;line-height:1.25;margin:0 0 3px;overflow-wrap:anywhere}
+.line{margin:0 0 7px;font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:1px 8px}
+.line b{color:var(--ink);font-weight:600}
+.next{display:flex;flex-wrap:nowrap;gap:6px;align-items:center;overflow-x:auto;
+  -webkit-overflow-scrolling:touch;padding:1px 0 3px;scrollbar-width:thin}
+.next::-webkit-scrollbar{height:4px}
+.next::-webkit-scrollbar-thumb{background:#cbd7e3;border-radius:4px}
+.sess{flex:0 0 auto}
+.next .mored{flex:0 0 auto}
+.nextlbl{display:none}
+.mored{min-height:36px;padding:5px 10px;border:1px dashed var(--line);background:#fff;
+  border-radius:10px;color:var(--accent);font:inherit;font-size:.8rem;font-weight:700;cursor:pointer}
+.badge{display:inline-block;font-size:.75rem;font-weight:700;padding:3px 9px;border-radius:999px;
+  letter-spacing:.02em}
+.badge--theatre{background:#ece0fb;color:#3d2a6b}
+.badge--workshop{background:#d9f0e0;color:#1a4a2c}
+.badge--museum{background:#fde6c8;color:#6b3b0c}
+.badge--tour{background:#d7e8fb;color:#12395f}
+.badge--music{background:#fbd9e6;color:#6b1533}
+.badge--other{background:#e6eaef;color:#333c45}
+.meta{margin:2px 0;font-size:.95rem;color:var(--ink);overflow-wrap:anywhere}
+.meta .k{color:var(--muted)}
+.meta .val{font-weight:600}
+.meta .val.inferred{font-weight:600}
+.meta .inf{color:var(--muted);font-weight:500;font-size:.85rem}
+.desc{margin:6px 0 0;border-top:1px dashed var(--line);padding-top:2px}
+.desc summary{cursor:pointer;font-weight:700;color:var(--accent);min-height:28px;display:flex;
+  align-items:center;font-size:.82rem}
+.desc p{margin:4px 0 0;color:var(--ink)}
+.evimg{display:block;width:100%;max-height:280px;object-fit:cover;border-radius:10px;margin:4px 0 8px;
+  background:#eef2f6;border:1px solid var(--line)}
+.desc .org{margin:6px 0 0;color:var(--muted);font-size:.88rem}
+.sessions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.sess{display:flex;flex-direction:column;gap:6px;max-width:100%}
+.sess .chip{flex-direction:column;align-items:flex-start;border-radius:9px;padding:5px 9px;
+  gap:1px;font-size:.82rem;min-width:118px;background:#f3f7fb;border-color:#e2eaf2;min-height:36px}
+.sess .chip[aria-expanded="true"]{background:#e6f0fa;border-color:#bcd6ef}
+.sess .chip[aria-expanded="true"] .chip-day{color:var(--accent)}
+.chip-day{font-weight:700;white-space:nowrap}
+.chip-note{font-size:.8rem;color:var(--muted);max-width:190px}
+.chip-sub{font-size:.75rem;color:var(--muted)}
+.chip--soldout{background:#f0f2f4;border-color:#d5dae0;color:var(--sold);cursor:default}
+.chip--soldout .chip-day,.chip--soldout .chip-note{text-decoration:line-through}
+.badge-sold{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.04em;
+  background:#f6d9d9;color:var(--warn);border-radius:4px;padding:1px 6px;text-decoration:none}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 2px;padding-left:2px}
+.act,.lnk{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;border-radius:10px;
+  text-decoration:none;font-weight:700;font-size:.9rem;white-space:nowrap}
+.act-book{background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent)}
+.lnk{border:1px solid var(--line);color:var(--accent);background:#fff}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;border-top:1px solid var(--line);padding-top:12px}
+.act-links{font-size:.8rem;color:var(--muted);line-height:1.35}
+.lnk-s{color:var(--accent);text-decoration:underline;font-weight:600}
+/* ---- view switch ---- */
+.views{display:flex;margin:10px 0 0;border:1px solid var(--line);border-radius:10px;
+  overflow:hidden;background:#fff;width:max-content;box-shadow:var(--shadow)}
+.views button{min-height:44px;padding:8px 20px;border:0;background:#fff;color:var(--accent);
+  font:inherit;font-weight:700;cursor:pointer}
+.views button+button{border-left:1px solid var(--line)}
+.views button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+/* ---- month calendar ---- */
+.cal{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:12px;margin:12px 0;box-shadow:var(--shadow)}
+.calhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px}
+.calhead h2{font-size:1rem;margin:0;text-transform:capitalize}
+.calnav{display:flex;gap:6px}
+.calnav button{min-width:44px;min-height:44px;border:1px solid var(--line);background:#fff;
+  border-radius:10px;color:var(--accent);font:inherit;font-weight:800;font-size:1rem;cursor:pointer}
+.calnav button#calToday{font-size:.85rem;padding:0 12px}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.gwd{font-size:.72rem;font-weight:700;color:var(--muted);text-align:center;padding:2px 0}
+.day{min-height:76px;border:1px solid var(--line);border-radius:8px;background:#fff;
+  padding:3px;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.day--out{background:#f6f8fa;border-color:#eef2f6}
+.day--has{cursor:pointer;background:#f7fbff;border-color:#cfe1f2}
+.day--today{outline:2px solid var(--accent);outline-offset:-2px}
+.daynum{font-size:.72rem;font-weight:700;color:var(--muted);text-align:right}
+.day--has .daynum{color:var(--accent)}
+.ev{font-size:.64rem;line-height:1.2;border-radius:4px;padding:1px 3px;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;background:#e8f1fa;color:#123}
+.ev--theatre{background:#ece0fb;color:#3d2a6b}
+.ev--workshop{background:#d9f0e0;color:#1a4a2c}
+.ev--museum{background:#fde6c8;color:#6b3b0c}
+.ev--tour{background:#d7e8fb;color:#12395f}
+.ev--sold{background:#eef0f2;color:#8b949c;text-decoration:line-through}
+.more{font-size:.62rem;color:var(--muted);padding-left:3px}
+.cnt{display:none;font-size:.8rem;font-weight:800;color:var(--accent);text-align:center;
+  white-space:nowrap;overflow:hidden}
+.calfoot{margin:10px 2px 0;font-size:.82rem;color:var(--muted)}
+.day--sel{outline:2px solid #7fb2e5;outline-offset:-2px;background:#e6f0fa}
+#calDay{margin:12px 0 0;border-top:1px solid var(--line);padding-top:10px}
+.caldayhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px}
+.caldayhead h3{margin:0;font-size:.95rem}
+.clearday{min-width:40px;min-height:40px;border:1px solid var(--line);background:#fff;border-radius:10px;
+  color:var(--muted);font:inherit;font-weight:800;cursor:pointer}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:8px 2px 0;font-size:.75rem;color:var(--muted)}
+.legend span i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;
+  vertical-align:-1px}
+@media (max-width:640px){ .day{min-height:52px} .ev,.more{display:none} .cnt{display:block}
+  .day--has{padding-top:2px} }
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
+  padding:22px 16px;text-align:center;color:var(--muted)}
+.soldonly{margin:12px 2px 0;font-size:.9rem;color:var(--muted);font-weight:600}
+footer.site{margin-top:26px;font-size:.78rem;color:var(--muted);text-align:center}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:360px){ .wrap{padding-left:10px;padding-right:10px}
+  .sess .chip{min-width:0;width:100%} .sessions{flex-direction:column} .sess{width:100%} }
+/* ---- dark mode (follows the browser/OS setting) -------------------------- */
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme:dark;
+    --bg:#0e1318; --card:#161d24; --ink:#e6edf3; --muted:#9fb0be; --line:#28333d;
+    --accent:#4ea6e0; --accent-ink:#07131b; --warn:#ffb3ac;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 2px 10px rgba(0,0,0,.4);
+  }
+  input[type=search],select{background:#1b242d;color:var(--ink)}
+  .chip,.sess .chip,.clear,.hidebtn,.unhidebtn,.mored,.lnk,.clearday,.calnav button,
+  .views,.views button{background:#1b242d}
+  .sess .chip{border-color:#2b3844}
+  .sess .chip[aria-expanded="true"]{background:#1d2a36;border-color:#33546e}
+  .chip--soldout{background:#20262b;border-color:#2c343b}
+  .hidebtn:hover{background:#2a1d1d;border-color:#5a3a3a;color:#ff9a90}
+  .badge--hidden{background:#242e38;color:#9fb0be}
+  .badge-sold{background:#3a2222;color:var(--warn)}
+  .thumb,.evimg{background:#1d2731}
+  .next::-webkit-scrollbar-thumb{background:#33414e}
+  .day{background:#161d24}
+  .day--out{background:#131a21;border-color:#1b232b}
+  .day--has{background:#17242f;border-color:#2b4356}
+  .day--sel{background:#1d3a52;outline-color:#4ea6e0}
+  .ev{background:#22303c;color:#dbe7f0}
+  .ev--theatre{background:#33245c;color:#d9c8ff}
+  .ev--workshop{background:#3b2a15;color:#f3d3a8}
+  .ev--museum{background:#3a2410;color:#f6cf9d}
+  .ev--tour{background:#15304a;color:#c4e0fb}
+  .ev--sold{background:#242a2f;color:#8b949c}
+  .hero{box-shadow:0 10px 26px rgba(0,0,0,.45)}
+  .empty{border-color:#33414e}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <div class="hero">
+      <div class="hrow">
+        <div>
+          <p class="kicker">Αττική · για παιδιά</p>
+          <h1>Παιδικές Εκδηλώσεις</h1>
+          <p class="sub">Θέατρο, εργαστήρια και μουσεία — ό,τι παίζει τις επόμενες εβδομάδες.</p>
+        </div>
+        <button type="button" class="gear" id="gear" aria-expanded="false" aria-controls="prefs"
+                aria-label="Ρυθμίσεις" title="Ρυθμίσεις">⚙️</button>
+      </div>
+      <p class="counts">21 εκδηλώσεις · 115 παραστάσεις/συνεδρίες</p>
+      <p class="updated">Ενημέρωση: <time datetime="2026-10-09T09:11:20+03:00">Παρασκευή 9 Οκτωβρίου 2026, 09:11</time></p>
+    </div>
+
+    <section class="prefs" id="prefs" hidden aria-label="Ρυθμίσεις">
+      <h2 class="ptitle">Ρυθμίσεις</h2>
+      <div class="two">
+        <div>
+          <label class="lbl" for="defAge">Προεπιλεγμένη ηλικία</label>
+          <select id="defAge">
+            <option value="all">όλες</option>
+            <option value="0-3">0-3</option>
+            <option value="4-6">4-6</option>
+            <option value="7-9">7-9</option>
+            <option value="10-12">10-12</option>
+            <option value="13+">13+</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl" for="defArea">Προεπιλεγμένη περιοχή</label>
+          <select id="defArea"><option value="all">Όλες οι περιοχές</option>
+<option value="athens-center">Αθήνα κέντρο</option>
+<option value="north">Βόρεια προάστια</option>
+<option value="south">Νότια προάστια</option>
+<option value="east">Ανατολικά</option>
+<option value="west">Δυτικά</option>
+<option value="piraeus">Πειραιάς</option></select>
+        </div>
+        <div>
+          <label class="lbl" for="defCat">Προεπιλεγμένη κατηγορία</label>
+          <select id="defCat"><option value="all">Όλες οι κατηγορίες</option>
+<option value="theatre">Θέατρο</option>
+<option value="workshop">Εργαστήριο</option>
+<option value="museum">Μουσείο</option>
+<option value="tour">Ξενάγηση</option>
+<option value="music">Μουσική</option>
+<option value="other">Άλλο</option></select>
+        </div>
+      </div>
+      <label class="toggle" for="showHidden">
+        <input id="showHidden" type="checkbox">
+        <span>Δείξε όσα έχω αποκρύψει</span>
+      </label>
+      <p class="pnote" id="hiddenCount"></p>
+      <div class="trow">
+        <button type="button" class="clear" id="clearHidden">Επαναφορά κρυμμένων</button>
+        <button type="button" class="clear" id="closePrefs">Κλείσιμο</button>
+      </div>
+      <p class="pnote">Οι προτιμήσεις και τα κρυμμένα αποθηκεύονται μόνο σε αυτόν τον browser.</p>
+    </section>
+  </header>
+
+  <main>
+    <details class="filters" id="filtersBox">
+      <summary class="fsum">
+        <span class="fsum-t">🔎 Αναζήτηση &amp; φίλτρα</span>
+        <span class="fcount" id="fcount" aria-live="polite"></span>
+      </summary>
+      <div class="fbody">
+      <div class="frow">
+        <label class="lbl" for="q">Αναζήτηση</label>
+        <input id="q" type="search" inputmode="search" autocomplete="off"
+               placeholder="τίτλος, χώρος, οργανωτής…" aria-describedby="res">
+      </div>
+
+      <fieldset class="fs">
+        <legend>Ηλικία</legend>
+        <div class="chips" id="ageChips" role="group" aria-label="Φίλτρο ηλικίας">
+<button type="button" class="chip" data-v="all" aria-pressed="true">όλες</button>
+<button type="button" class="chip" data-v="0-3" aria-pressed="false">0-3</button>
+<button type="button" class="chip" data-v="4-6" aria-pressed="false">4-6</button>
+<button type="button" class="chip" data-v="7-9" aria-pressed="false">7-9</button>
+<button type="button" class="chip" data-v="10-12" aria-pressed="false">10-12</button>
+<button type="button" class="chip" data-v="13+" aria-pressed="false">13+</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="fs">
+        <legend>Πότε</legend>
+        <div class="chips" id="whenChips" role="group" aria-label="Φίλτρο ημερομηνίας">
+<button type="button" class="chip" data-v="all" aria-pressed="true">Όλες</button>
+<button type="button" class="chip" data-v="today" aria-pressed="false">Σήμερα</button>
+<button type="button" class="chip" data-v="tomorrow" aria-pressed="false">Αύριο</button>
+<button type="button" class="chip" data-v="weekend" aria-pressed="false">Αυτό το ΣΚ</button>
+<button type="button" class="chip" data-v="7days" aria-pressed="false">Επόμενες 7 ημέρες</button>
+        </div>
+      </fieldset>
+
+      <div class="frow two">
+        <div>
+          <label class="lbl" for="area">Περιοχή</label>
+          <select id="area"><option value="all">Όλες οι περιοχές</option>
+<option value="athens-center">Αθήνα κέντρο</option>
+<option value="north">Βόρεια προάστια</option>
+<option value="south">Νότια προάστια</option>
+<option value="east">Ανατολικά</option>
+<option value="west">Δυτικά</option>
+<option value="piraeus">Πειραιάς</option></select>
+        </div>
+        <div>
+          <label class="lbl" for="cat">Κατηγορία</label>
+          <select id="cat"><option value="all">Όλες οι κατηγορίες</option>
+<option value="theatre">Θέατρο</option>
+<option value="workshop">Εργαστήριο</option>
+<option value="museum">Μουσείο</option>
+<option value="tour">Ξενάγηση</option>
+<option value="music">Μουσική</option>
+<option value="other">Άλλο</option></select>
+        </div>
+        <div>
+          <label class="lbl" for="sort">Ταξινόμηση</label>
+          <select id="sort">
+            <option value="date">Ημερομηνία</option>
+            <option value="title">Τίτλος</option>
+            <option value="price">Τιμή</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="frow trow">
+        <label class="toggle" for="soldout">
+          <input id="soldout" type="checkbox">
+          <span>Δείξε και τα sold out</span>
+        </label>
+        <button type="button" class="clear" id="clear">Καθαρισμός φίλτρων</button>
+      </div>
+      </div>
+    </details>
+
+      <div class="views" role="group" aria-label="Προβολή">
+        <button type="button" id="vList" aria-pressed="true">Λίστα</button>
+        <button type="button" id="vCal" aria-pressed="false">Ημερολόγιο</button>
+      </div>
+
+      <section class="cal" id="calView" hidden aria-label="Ημερολόγιο μήνα">
+        <div class="calhead">
+          <h2 id="calTitle"></h2>
+          <div class="calnav">
+            <button type="button" id="calPrev" aria-label="Προηγούμενος μήνας">‹</button>
+            <button type="button" id="calToday">Σήμερα</button>
+            <button type="button" id="calNext" aria-label="Επόμενος μήνας">›</button>
+          </div>
+        </div>
+        <div class="grid" id="calGrid"></div>
+        <div id="calDay" hidden></div>
+        <p class="calfoot" id="calFoot"></p>
+        <p class="legend">
+          <span><i style="background:#ece0fb"></i>Θέατρο</span>
+          <span><i style="background:#d9f0e0"></i>Εργαστήριο</span>
+          <span><i style="background:#fde6c8"></i>Μουσείο</span>
+          <span><i style="background:#d7e8fb"></i>Ξενάγηση</span>
+          <span><i style="background:#eef0f2"></i>Sold out</span>
+        </p>
+      </section>
+
+      <p class="results" id="res" aria-live="polite"></p>
+      <div class="cards" id="cards"></div>
+      <p class="soldonly" id="soldonly" hidden></p>
+
+    <footer class="site">
+      <p>Τα στοιχεία προέρχονται από τις αναγραφόμενες πηγές και ενδέχεται να αλλάξουν·
+         επιβεβαιώστε πριν την κράτηση.</p>
+    </footer>
+  </main>
+</div>
+
+<script id="kids-data" type="application/json">{"schema":1,"generated_at":"2026-10-09T09:11:20+03:00","counts":{"programs":21,"sessions":115,"sold_out":11},"sources":[{"id":"more.com","name":"more.com","url":"https://www.more.com/gr-el/tickets/","availability":"per-session"},{"id":"goulandris.gr","name":"Ίδρυμα Β\u0026Ε Γουλανδρή","url":"https://goulandris.gr/el/events/","availability":"unknown"},{"id":"gnhm.gr","name":"ΕΜΦΙ Γουλανδρή","url":"https://www.gnhm.gr/actions/","availability":"unknown"},{"id":"nationalgallery.gr","name":"Εθνική Πινακοθήκη","url":"https://tickets.nationalgallery.gr/","availability":"unknown"},{"id":"cycladic.gr","name":"Μουσείο Κυκλαδικής Τέχνης","url":"https://cycladic.gr/","availability":"unknown"},{"id":"childrensartmuseum.gr","name":"Μουσείο Ελληνικής Παιδικής Τέχνης","url":"https://www.childrensartmuseum.gr/","availability":"per-date"},{"id":"mouseiopeiramaton.gr","name":"Μουσείο Πειραμάτων","url":"https://www.mouseiopeiramaton.gr/","availability":"per-session"},{"id":"ding.gr","name":"ding Χαλάνδρι","url":"https://ding.gr/","availability":"unknown"}],"programs":[{"id":"synaisthimata-εκθεση-στο-παλάτι-του-θυμού","title":"Μουσείο Συναισθημάτων – ΕΚΘΕΣΗ «Στο Παλάτι του Θυμού!»","category":"museum","organizer":"","venue":"Μουσείο Συναισθημάτων","address":"Καρατζά 7, Αθήνα","area":"athens-center","ages":{"min":null,"max":null,"text":"δεν αναφέρεται","source":"unknown"},"price":{"text":"6€","min":6.0,"max":6.0,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","source_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","description":"Διαδραστική έκθεση «Στο Παλάτι του Θυμού!», πακέτα έκθεση+εργαστήριο και απογευματινά εργαστήρια.","tags":["μουσείο","έκθεση"],"sessions":[{"start":"2026-10-10T10:00:00+03:00","end":"2026-10-10T12:30:00+03:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-11T10:00:00+03:00","end":"2026-10-11T12:30:00+03:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-17T10:00:00+03:00","end":"2026-10-17T12:30:00+03:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-18T10:00:00+03:00","end":"2026-10-18T12:30:00+03:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-24T10:00:00+03:00","end":"2026-10-24T12:30:00+03:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-25T10:00:00+02:00","end":"2026-10-25T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-31T10:00:00+02:00","end":"2026-10-31T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-07T10:00:00+02:00","end":"2026-11-07T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-08T10:00:00+02:00","end":"2026-11-08T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-14T10:00:00+02:00","end":"2026-11-14T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-15T10:00:00+02:00","end":"2026-11-15T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-21T10:00:00+02:00","end":"2026-11-21T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-22T10:00:00+02:00","end":"2026-11-22T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-28T10:00:00+02:00","end":"2026-11-28T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-29T10:00:00+02:00","end":"2026-11-29T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-05T10:00:00+02:00","end":"2026-12-05T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-06T10:00:00+02:00","end":"2026-12-06T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-12T10:00:00+02:00","end":"2026-12-12T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-13T10:00:00+02:00","end":"2026-12-13T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-19T10:00:00+02:00","end":"2026-12-19T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-20T10:00:00+02:00","end":"2026-12-20T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-27T10:00:00+02:00","end":"2026-12-27T12:30:00+02:00","status":"available","status_text":"6€","checked_at":"2026-10-09T09:11:09+03:00","note":""}]},{"id":"goulandris-ti-oraia-thea","title":"Γουλανδρή – «Τι ωραία θέα!» (5-7 ετών)","category":"workshop","organizer":"","venue":"Ίδρυμα Β. \u0026 Ε. Γουλανδρή – Παιδικό Εργαστήριο","address":"Ερατοσθένους 13, Παγκράτι, Αθήνα","area":"athens-center","ages":{"min":5,"max":7,"text":"5-7 ετών","source":"stated"},"price":{"text":"15€ (μέλη 12€)","min":15,"max":15,"free":false},"booking_url":"https://goulandris.gr/el/events/what-a-wonderful-view-sep26","source_url":"https://goulandris.gr/el/events/what-a-wonderful-view-sep26","description":"Εργαστήριο εικαστικών για παιδιά 5-7 ετών. Κάθε Σάββατο έως 16/01/2027 (δεν πραγματοποιείται 26/12). Η διαθεσιμότητα δεν είναι αυτόματα ελέγξιμη — επιβεβαίωσε στο goulandris.gr.","tags":["εργαστήριο","εικαστικά"],"sessions":[{"start":"2026-10-10T10:00:00+03:00","end":"2026-10-10T11:00:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-17T10:00:00+03:00","end":"2026-10-17T11:00:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-24T10:00:00+03:00","end":"2026-10-24T11:00:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-31T10:00:00+02:00","end":"2026-10-31T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-07T10:00:00+02:00","end":"2026-11-07T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-14T10:00:00+02:00","end":"2026-11-14T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-21T10:00:00+02:00","end":"2026-11-21T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-28T10:00:00+02:00","end":"2026-11-28T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-05T10:00:00+02:00","end":"2026-12-05T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-12T10:00:00+02:00","end":"2026-12-12T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-19T10:00:00+02:00","end":"2026-12-19T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2027-01-02T10:00:00+02:00","end":"2027-01-02T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2027-01-09T10:00:00+02:00","end":"2027-01-09T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2027-01-16T10:00:00+02:00","end":"2027-01-16T11:00:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""}],"image":"https://s3-eu-west-1.amazonaws.com/static1.goulandris.gr/events/ergastirio1-gkikas-What-a-Wonderful-View-WEB.jpg"},{"id":"synaisthimata-πακέτο-έκθεση-εργαστήριο-ημέρας","title":"Μουσείο Συναισθημάτων – Πακέτο {Έκθεση + Εργαστήριο ημέρας}","category":"workshop","organizer":"","venue":"Μουσείο Συναισθημάτων","address":"Καρατζά 7, Αθήνα","area":"athens-center","ages":{"min":null,"max":null,"text":"δεν αναφέρεται","source":"unknown"},"price":{"text":"12€","min":12.0,"max":12.0,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","source_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","description":"Διαδραστική έκθεση «Στο Παλάτι του Θυμού!», πακέτα έκθεση+εργαστήριο και απογευματινά εργαστήρια.","tags":["μουσείο","έκθεση"],"sessions":[{"start":"2026-10-10T11:00:00+03:00","end":"2026-10-10T13:00:00+03:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-11T11:00:00+03:00","end":"2026-10-11T13:00:00+03:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-17T11:00:00+03:00","end":"2026-10-17T13:00:00+03:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-18T11:00:00+03:00","end":"2026-10-18T13:00:00+03:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-25T11:00:00+02:00","end":"2026-10-25T13:00:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-31T11:00:00+02:00","end":"2026-10-31T13:00:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":""}]},{"id":"ding-dubuffet","title":"ding Χαλάνδρι – Η τέχνη του Jean Dubuffet (6-12 ετών)","category":"workshop","organizer":"","venue":"ding – δημιουργικά εργαστήρια","address":"Σοφοκλή Βενιζέλου 21, Χαλάνδρι","area":"north","ages":{"min":6,"max":12,"text":"6-12 ετών","source":"stated"},"price":{"text":"15€","min":15,"max":15,"free":false},"booking_url":"https://ding.gr/thematiko/jean-dubuffet-2026/","source_url":"https://ding.gr/thematiko/jean-dubuffet-2026/","description":"Εργαστήριο γλυπτικής \u0026 κατασκευών (1,5 ώρα). Απαραίτητη κράτηση θέσης.","tags":["εργαστήριο","γλυπτική"],"sessions":[{"start":"2026-10-10T11:30:00+03:00","end":"2026-10-10T13:00:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:12+03:00","note":""},{"start":"2026-10-10T13:30:00+03:00","end":"2026-10-10T15:00:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:12+03:00","note":""}],"image":"https://ding.gr/wp-content/uploads/2026/10/Jean-Dubuffet-Skedaddle_1200.jpg"},{"id":"emfi-kataskopos-robot","title":"ΕΜΦΙ Γουλανδρή – «Κατάσκοπος Ρομπότ» (6-9 ετών)","category":"workshop","organizer":"","venue":"Κέντρο ΓΑΙΑ – Αίθουσα Κύκλος","address":"Όθωνος 100, Κηφισιά","area":"north","ages":{"min":6,"max":9,"text":"6-9 ετών","source":"stated"},"price":{"text":"15€","min":15,"max":15,"free":false},"booking_url":"https://www.gnhm.gr/actions/ergastiri-robotikis-kataskopos-robot-apo-to-cit/","source_url":"https://www.gnhm.gr/actions/ergastiri-robotikis-kataskopos-robot-apo-to-cit/","description":"Εργαστήριο ρομποτικής (1 ώρα). Η συνεδρία των 11:00 ήταν sold out.","tags":["εργαστήριο","ρομποτική"],"sessions":[{"start":"2026-10-10T12:30:00+03:00","end":"2026-10-10T13:30:00+03:00","status":"unknown","status_text":"η 11:00 αναφέρεται sold out","checked_at":"2026-10-09T09:11:09+03:00","note":""}]},{"id":"synaisthimata-φοβε-ρές-εξερευνήσεις","title":"Μουσείο Συναισθημάτων – Φοβε-ρές Εξερευνήσεις","category":"workshop","organizer":"","venue":"Μουσείο Συναισθημάτων","address":"Καρατζά 7, Αθήνα","area":"athens-center","ages":{"min":null,"max":null,"text":"δεν αναφέρεται","source":"unknown"},"price":{"text":"10€","min":10.0,"max":10.0,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","source_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","description":"Διαδραστική έκθεση «Στο Παλάτι του Θυμού!», πακέτα έκθεση+εργαστήριο και απογευματινά εργαστήρια.","tags":["μουσείο","έκθεση"],"sessions":[{"start":"2026-10-10T13:00:00+03:00","end":"2026-10-10T14:00:00+03:00","status":"available","status_text":"10€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-11T13:00:00+03:00","end":"2026-10-11T14:00:00+03:00","status":"available","status_text":"10€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-17T13:00:00+03:00","end":"2026-10-17T14:00:00+03:00","status":"available","status_text":"10€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-25T13:00:00+02:00","end":"2026-10-25T14:00:00+02:00","status":"available","status_text":"10€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-31T13:00:00+02:00","end":"2026-10-31T14:00:00+02:00","status":"available","status_text":"10€","checked_at":"2026-10-09T09:11:09+03:00","note":""}]},{"id":"cycladic-fantastou-ta-eidolia","title":"Κυκλαδικό Μουσείο – «Φαντάσου τα ειδώλια…αλλού!» (4-7 ετών)","category":"workshop","organizer":"","venue":"Μουσείο Κυκλαδικής Τέχνης","address":"Νεοφύτου Δούκα 4, Αθήνα","area":"athens-center","ages":{"min":4,"max":7,"text":"4-7 ετών, χωρίς συνοδό","source":"stated"},"price":{"text":"15€","min":15,"max":15,"free":false},"booking_url":"https://cycladic.gr/kids-activity/fantasou-ta-eidoliaallou/","source_url":"https://cycladic.gr/kids-activity/fantasou-ta-eidoliaallou/","description":"Εργαστήριο για παιδιά 4-7 ετών (έως 15 παιδιά, μόνο για ελληνόφωνα παιδιά).","tags":["εργαστήριο","μουσείο"],"sessions":[{"start":"2026-10-10T14:00:00+03:00","end":"2026-10-10T16:00:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-11T11:30:00+03:00","end":"2026-10-11T13:30:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-17T11:00:00+03:00","end":"2026-10-17T13:00:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-17T14:00:00+03:00","end":"2026-10-17T16:00:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-18T11:30:00+03:00","end":"2026-10-18T13:30:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""}],"image":"https://cycladic.gr/wp-content/uploads/2026/09/Summer-Camp-2_7_25-59-scaled.jpg"},{"id":"gkroufalo","title":"Το Γκρούφαλο","category":"theatre","organizer":"","venue":"Ελληνικός Κόσμος, Αίθουσα Ιφιγένεια 2","address":"Πειραιώς 254, Ταύρος","area":"athens-center","ages":{"min":null,"max":null,"text":"για όλη την οικογένεια","source":"inferred"},"price":{"text":"από 12€","min":12.0,"max":12.0,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/theater/children/to-gkroufalo-athina/","source_url":"https://www.more.com/gr-el/tickets/theater/children/to-gkroufalo-athina/","description":"Θεατρική διασκευή του βιβλίου των Ντόναλντσον/Σέφλερ.","tags":["θέατρο"],"sessions":[{"start":"2026-10-10T14:30:00+03:00","end":"2026-10-10T15:40:00+03:00","status":"available","status_text":"από 12€","checked_at":"2026-10-09T09:11:08+03:00","note":"Το Γκρούφαλο Αθήνα"},{"start":"2026-10-17T14:30:00+03:00","end":"2026-10-17T15:40:00+03:00","status":"available","status_text":"από 12€","checked_at":"2026-10-09T09:11:08+03:00","note":"Το Γκρούφαλο Αθήνα"},{"start":"2026-10-24T14:30:00+03:00","end":"2026-10-24T15:40:00+03:00","status":"available","status_text":"από 12€","checked_at":"2026-10-09T09:11:08+03:00","note":"Το Γκρούφαλο Αθήνα"},{"start":"2026-10-31T14:30:00+02:00","end":"2026-10-31T15:40:00+02:00","status":"available","status_text":"από 12€","checked_at":"2026-10-09T09:11:08+03:00","note":"Το Γκρούφαλο Αθήνα"}],"image":"https://www.more.com/getattachment/a0196316-8984-44d3-949f-bcd6dc347aac/Το-Γκρουφαλο-Αθηναd0755038-0921-4d00-9ee1-d1e5121d.png"},{"id":"mikros-prigkipas","title":"Ο Μικρός Πρίγκιπας – Θέατρο Μαριονέτας Γκότση","category":"theatre","organizer":"","venue":"Θέατρο Μαριονέτας Γκότση","address":"Τάμπα 43, Ηλιούπολη","area":"south","ages":{"min":null,"max":null,"text":"για παιδιά","source":"unknown"},"price":{"text":"8€","min":8,"max":8,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/theater/children/o-mikros-prigkipas-theatro-marionetas-gkotsi/","source_url":"https://www.more.com/gr-el/tickets/theater/children/o-mikros-prigkipas-theatro-marionetas-gkotsi/","description":"Χειροποίητες μαριονέτες. Ο χώρος κάθε παράστασης αναγράφεται στο more.com.","tags":["θέατρο","μαριονέτες"],"sessions":[{"start":"2026-10-10T17:00:00+03:00","end":"2026-10-10T18:05:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2026-10-10T19:00:00+03:00","end":"2026-10-10T20:05:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2026-10-18T12:00:00+03:00","end":"2026-10-18T13:05:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2026-10-24T18:00:00+03:00","end":"2026-10-24T19:05:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2026-10-31T17:00:00+02:00","end":"2026-10-31T18:05:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""}]},{"id":"paramithohora","title":"Παραμυθοχώρα (κουκλοθέατρο)","category":"theatre","organizer":"","venue":"Θέατρο Altera Pars","address":"Μεγ. Αλεξάνδρου 123, Κεραμεικός, Αθήνα","area":"athens-center","ages":{"min":null,"max":null,"text":"για παιδιά","source":"unknown"},"price":{"text":"10–11€","min":10,"max":11,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/theater/children/paramithohora/","source_url":"https://www.more.com/gr-el/tickets/theater/children/paramithohora/","description":"Παιδικό θέατρο / κουκλοθέατρο. Κρατήσεις μέσω more.com.","tags":["θέατρο","κουκλοθέατρο"],"sessions":[{"start":"2026-10-11T10:30:00+03:00","end":"2026-10-11T11:30:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2026-10-11T12:30:00+03:00","end":"2026-10-11T13:30:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2026-10-18T10:30:00+03:00","end":"2026-10-18T11:30:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2026-10-18T12:30:00+03:00","end":"2026-10-18T13:30:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2026-10-25T10:30:00+02:00","end":"2026-10-25T11:30:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2026-10-25T12:30:00+02:00","end":"2026-10-25T13:30:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2027-01-10T12:30:00+02:00","end":"2027-01-10T13:30:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2027-01-17T12:30:00+02:00","end":"2027-01-17T13:30:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""},{"start":"2027-01-24T12:30:00+02:00","end":"2027-01-24T13:30:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:08+03:00","note":""}],"image":"https://www.more.com/getattachment/99affb0e-47bd-4dc1-8a65-95d98ff84449/Παραμυθοχωραe250d1ee-56d2-4408-b067-d3b76ac1388e.png"},{"id":"goulandris-family-walks","title":"Γουλανδρή – Family Walks (οικογενειακές ξεναγήσεις)","category":"tour","organizer":"","venue":"Ίδρυμα Β. \u0026 Ε. Γουλανδρή","address":"Ερατοσθένους 13, Παγκράτι, Αθήνα","area":"athens-center","ages":{"min":5,"max":null,"text":"ενήλικες \u0026 παιδιά 5+","source":"stated"},"price":{"text":"ενήλικες 17€ (μέλη 13€), παιδιά 8€ (μέλη 6€)","min":8,"max":17,"free":false},"booking_url":"https://goulandris.gr/el/events/family-walks-26-27","source_url":"https://goulandris.gr/el/events/family-walks-26-27","description":"Διαδραστικές οικογενειακές ξεναγήσεις στη Συλλογή, διάρκεια 75', 3-14 άτομα. Η διαθεσιμότητα δεν είναι αυτόματα ελέγξιμη.","tags":["ξενάγηση","οικογενειακά"],"sessions":[{"start":"2026-10-11T10:30:00+03:00","end":"2026-10-11T11:45:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-11T12:00:00+03:00","end":"2026-10-11T13:15:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-18T10:30:00+03:00","end":"2026-10-18T11:45:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-18T12:00:00+03:00","end":"2026-10-18T13:15:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-25T10:30:00+02:00","end":"2026-10-25T11:45:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-10-25T12:00:00+02:00","end":"2026-10-25T13:15:00+02:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""}],"image":"https://s3-eu-west-1.amazonaws.com/static1.goulandris.gr/events/Valeria_Isaeva-6917-Αντιγραφή-WEB.jpg"},{"id":"piramaton-xromata","title":"Μουσείο Πειραμάτων – Η Επιστήμη των Χρωμάτων (4-6 ετών)","category":"workshop","organizer":"","venue":"Μουσείο Πειραμάτων Αγίου Δημητρίου","address":"Θάλειας 3, Άγιος Δημήτριος, Αθήνα","area":"south","ages":{"min":4,"max":6,"text":"4-6 ετών με ενήλικο συνοδό","source":"stated"},"price":{"text":"12€ (1 παιδί+1 ενήλικας) / 18€ (2 παιδιά ή 2 ενήλικες)","min":12,"max":18,"free":false},"booking_url":"https://www.mouseiopeiramaton.gr/event/11-10_11-00-12-00-%CE%B7-%CE%B5%CF%80%CE%B9%CF%83%CF%84%CE%B7%CE%BC%CE%B7-%CF%84%CF%89%CE%BD-%CF%87%CF%81%CF%89%CE%BC%CE%B1%CF%84%CF%89%CE%BD-junior-science-%CE%B3%CE%B9%CE%B1-%CF%80%CE%B1%CE%B9/","source_url":"https://www.mouseiopeiramaton.gr/event/11-10_11-00-12-00-%CE%B7-%CE%B5%CF%80%CE%B9%CF%83%CF%84%CE%B7%CE%BC%CE%B7-%CF%84%CF%89%CE%BD-%CF%87%CF%81%CF%89%CE%BC%CE%B1%CF%84%CF%89%CE%BD-junior-science-%CE%B3%CE%B9%CE%B1-%CF%80%CE%B1%CE%B9/","description":"Junior Science, 11:00-12:00.","tags":["εργαστήριο","science"],"sessions":[{"start":"2026-10-11T11:00:00+03:00","end":"2026-10-11T12:00:00+03:00","status":"sold_out","status_text":"Sold Out","checked_at":"2026-10-09T09:11:11+03:00","note":""}],"image":"https://www.mouseiopeiramaton.gr/wp-content/uploads/2026/09/ΕΠΙΣΤΗΜΗ-ΤΩΝ-ΧΡΩΜΑΤΩΝ.jpg"},{"id":"keramiki-paidiko-mouseio","title":"Εργαστήρι κεραμικής για οικογένειες","category":"workshop","organizer":"","venue":"Ελληνικό Παιδικό Μουσείο","address":"Βασ. Γεωργίου Β 19, Αθήνα","area":"athens-center","ages":{"min":3,"max":12,"text":"3-12 ετών με γονέα","source":"stated"},"price":{"text":"18€","min":18,"max":18,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/museums/children/ergastiri-keramikis-gia-oikogeneies-me-paidia/","source_url":"https://www.more.com/gr-el/tickets/museums/children/ergastiri-keramikis-gia-oikogeneies-me-paidia/","description":"Θεματικό εργαστήρι κεραμικής για παιδιά 3-12 ετών με συνοδό.","tags":["εργαστήριο","κεραμική"],"sessions":[{"start":"2026-10-11T11:15:00+03:00","end":"2026-10-11T12:30:00+03:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Φύλλα Φθινοπώρου"},{"start":"2026-10-18T11:15:00+03:00","end":"2026-10-18T12:30:00+03:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Φύλλα Φθινοπώρου"},{"start":"2026-10-18T13:15:00+03:00","end":"2026-10-18T14:30:00+03:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Φύλλα Φθινοπώρου"},{"start":"2026-11-01T11:15:00+02:00","end":"2026-11-01T12:30:00+02:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Κεραμικός πύραυλος"},{"start":"2026-11-01T13:15:00+02:00","end":"2026-11-01T14:30:00+02:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Κεραμικός πύραυλος"},{"start":"2026-11-08T11:15:00+02:00","end":"2026-11-08T12:30:00+02:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Κεραμικός πύραυλος"},{"start":"2026-11-08T13:15:00+02:00","end":"2026-11-08T14:30:00+02:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Κεραμικός πύραυλος"},{"start":"2026-12-13T11:15:00+02:00","end":"2026-12-13T12:30:00+02:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Πήλινα φαναράκια Χριστουγέννων"},{"start":"2026-12-20T11:15:00+02:00","end":"2026-12-20T12:30:00+02:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Πήλινα φαναράκια Χριστουγέννων"},{"start":"2026-12-20T13:15:00+02:00","end":"2026-12-20T14:30:00+02:00","status":"sold_out","status_text":"Sold out","checked_at":"2026-10-09T09:11:09+03:00","note":"Πήλινα φαναράκια Χριστουγέννων"}],"image":"https://www.more.com/getattachment/de114b75-d827-499e-81ba-2862e4f30c19/Εργαστηρι-κεραμικης-για-οικογενειες-με-παιδια75010.png"},{"id":"pinakothiki-ta-f","title":"Εθνική Πινακοθήκη – «Τα Φ του Φθινοπώρου» (6-10 ετών)","category":"workshop","organizer":"","venue":"Εθνική Γλυπτοθήκη","address":"Άλσος Στρατού, Γουδή, Αθήνα","area":"east","ages":{"min":6,"max":10,"text":"6-10 ετών με γονείς","source":"stated"},"price":{"text":"συνοδός 8€, παιδί δωρεάν","min":0,"max":8,"free":false},"booking_url":"https://tickets.nationalgallery.gr/el/ticket/ta-f-toy-fthinoporoy/","source_url":"https://tickets.nationalgallery.gr/el/ticket/ta-f-toy-fthinoporoy/","description":"Εκπαιδευτικό πρόγραμμα, διάρκεια 90'.","tags":["εργαστήριο","μουσείο"],"sessions":[{"start":"2026-10-11T11:30:00+03:00","end":"2026-10-11T13:00:00+03:00","status":"unknown","status_text":"","checked_at":"2026-10-09T09:11:09+03:00","note":""}]},{"id":"mept-1810","title":"Μουσείο Ελληνικής Παιδικής Τέχνης – «Στη Γαλλία με τον Εντγκάρ Ντεγκά»","category":"workshop","organizer":"","venue":"Μουσείο Ελληνικής Παιδικής Τέχνης","address":"Κυδαθηναίων 9, Πλάκα, Αθήνα","area":"athens-center","ages":{"min":6,"max":12,"text":"6-12 ετών","source":"stated"},"price":{"text":"13€ (2 αδέρφια 22€, 3 αδέρφια 30€)","min":13,"max":13,"free":false},"booking_url":"https://www.childrensartmuseum.gr/view_event/917/aytoteli-eikastika-ergastiria-kyriakis-gia-paidia-6-ews-12-etwn","source_url":"https://www.childrensartmuseum.gr/view_event/917/aytoteli-eikastika-ergastiria-kyriakis-gia-paidia-6-ews-12-etwn","description":"Κυριακάτικο αυτοτελές εικαστικό εργαστήριο, 10:30-12:00, υλικά παρέχονται.","tags":["εργαστήριο","εικαστικά"],"sessions":[{"start":"2026-10-18T10:30:00+03:00","end":"2026-10-18T12:00:00+03:00","status":"available","status_text":"","checked_at":"2026-10-09T09:11:10+03:00","note":""}],"image":"https://www.childrensartmuseum.gr/images/prds/917.jpg"},{"id":"ririka","title":"Τα γενέθλια της Ριρίκας (4η χρονιά)","category":"theatre","organizer":"","venue":"Θέατρο Μεταξουργείο","address":"Ακαδήμου 14, Αθήνα","area":"athens-center","ages":{"min":null,"max":null,"text":"για παιδιά","source":"unknown"},"price":{"text":"12€","min":12,"max":12,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/theater/children/offer/ta-genethlia-tis-ririkas-4i-xronia/","source_url":"https://www.more.com/gr-el/tickets/theater/children/offer/ta-genethlia-tis-ririkas-4i-xronia/","description":"Μουσικοθεατρική παράσταση.","tags":["θέατρο","μουσικοθεατρική"],"sessions":[{"start":"2026-10-18T12:00:00+03:00","end":"2026-10-18T12:55:00+03:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-10-25T12:00:00+02:00","end":"2026-10-25T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-11-01T12:00:00+02:00","end":"2026-11-01T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-11-08T12:00:00+02:00","end":"2026-11-08T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-11-15T12:00:00+02:00","end":"2026-11-15T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-11-22T12:00:00+02:00","end":"2026-11-22T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-11-29T12:00:00+02:00","end":"2026-11-29T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-12-06T12:00:00+02:00","end":"2026-12-06T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-12-13T12:00:00+02:00","end":"2026-12-13T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-12-20T12:00:00+02:00","end":"2026-12-20T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"},{"start":"2026-12-27T12:00:00+02:00","end":"2026-12-27T12:55:00+02:00","status":"available","status_text":"12€","checked_at":"2026-10-09T09:11:09+03:00","note":"Τα γενέθλια της Ριρίκας - 4η χρονιά"}],"image":"https://www.more.com/getattachment/b3f44617-dd42-4712-a05e-5fb51ec398e9/Τα-γενεθλια-της-Ριρικας---4η-χρονια9c6614f4-3d71-4.png"},{"id":"synaisthimata-παραμύθια-συναισθήματα-μετά-μουσικής","title":"Μουσείο Συναισθημάτων – ♪ Παραμύθια \u0026 Συναισθήματα Μετά Μουσικής ♫","category":"workshop","organizer":"","venue":"Μουσείο Συναισθημάτων","address":"Καρατζά 7, Αθήνα","area":"athens-center","ages":{"min":null,"max":null,"text":"δεν αναφέρεται","source":"unknown"},"price":{"text":"10€","min":10.0,"max":10.0,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","source_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","description":"Διαδραστική έκθεση «Στο Παλάτι του Θυμού!», πακέτα έκθεση+εργαστήριο και απογευματινά εργαστήρια.","tags":["μουσείο","έκθεση"],"sessions":[{"start":"2026-10-18T13:00:00+03:00","end":"2026-10-18T14:00:00+03:00","status":"available","status_text":"10€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-11-15T13:00:00+02:00","end":"2026-11-15T14:00:00+02:00","status":"available","status_text":"10€","checked_at":"2026-10-09T09:11:09+03:00","note":""},{"start":"2026-12-20T13:00:00+02:00","end":"2026-12-20T14:00:00+02:00","status":"available","status_text":"10€","checked_at":"2026-10-09T09:11:09+03:00","note":""}]},{"id":"synaisthimata-20-χρόνια-μουσείο-συναισθημάτων","title":"Μουσείο Συναισθημάτων – 20 χρόνια Μουσείο Συναισθημάτων!!!!","category":"workshop","organizer":"","venue":"Μουσείο Συναισθημάτων","address":"Καρατζά 7, Αθήνα","area":"athens-center","ages":{"min":null,"max":null,"text":"δεν αναφέρεται","source":"unknown"},"price":{"text":"10€","min":10.0,"max":10.0,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","source_url":"https://www.more.com/gr-el/tickets/museums/children/mouseio-synaisthimaton/","description":"Διαδραστική έκθεση «Στο Παλάτι του Θυμού!», πακέτα έκθεση+εργαστήριο και απογευματινά εργαστήρια.","tags":["μουσείο","έκθεση"],"sessions":[{"start":"2026-10-24T13:00:00+03:00","end":"2026-10-24T14:00:00+03:00","status":"available","status_text":"10€","checked_at":"2026-10-09T09:11:09+03:00","note":""}]},{"id":"mept-2510","title":"Μουσείο Ελληνικής Παιδικής Τέχνης – «Στην Ιαπωνια με τη Γιαγιόι Κουσάμα»","category":"workshop","organizer":"","venue":"Μουσείο Ελληνικής Παιδικής Τέχνης","address":"Κυδαθηναίων 9, Πλάκα, Αθήνα","area":"athens-center","ages":{"min":6,"max":12,"text":"6-12 ετών","source":"stated"},"price":{"text":"13€ (2 αδέρφια 22€, 3 αδέρφια 30€)","min":13,"max":13,"free":false},"booking_url":"https://www.childrensartmuseum.gr/view_event/917/aytoteli-eikastika-ergastiria-kyriakis-gia-paidia-6-ews-12-etwn","source_url":"https://www.childrensartmuseum.gr/view_event/917/aytoteli-eikastika-ergastiria-kyriakis-gia-paidia-6-ews-12-etwn","description":"Κυριακάτικο αυτοτελές εικαστικό εργαστήριο, 10:30-12:00, υλικά παρέχονται.","tags":["εργαστήριο","εικαστικά"],"sessions":[{"start":"2026-10-25T10:30:00+02:00","end":"2026-10-25T12:00:00+02:00","status":"available","status_text":"","checked_at":"2026-10-09T09:11:10+03:00","note":""}],"image":"https://www.childrensartmuseum.gr/images/prds/917.jpg"},{"id":"xameno-gramma","title":"Το Χαμένο Γράμμα, το Μαγικό Κλειδί \u0026 ο Άι-Βασίλης","category":"theatre","organizer":"","venue":"Από Μηχανής Θέατρο (Κάτω Σκηνή)","address":"Ακαδήμου 13, Μεταξουργείο, Αθήνα","area":"athens-center","ages":{"min":null,"max":null,"text":"παιδική σκηνή","source":"unknown"},"price":{"text":"8€","min":8.0,"max":8.0,"free":false},"booking_url":"https://www.more.com/gr-el/tickets/theater/children/to-xameno-gramma-to-magiko-kleidi-o-ai-basilis/","source_url":"https://www.more.com/gr-el/tickets/theater/children/to-xameno-gramma-to-magiko-kleidi-o-ai-basilis/","description":"Πρωτότυπο χριστουγεννιάτικο παραμύθι.","tags":["θέατρο","χριστούγεννα"],"sessions":[{"start":"2026-11-22T11:30:00+02:00","end":"2026-11-22T12:40:00+02:00","status":"available","status_text":"από 8€","checked_at":"2026-10-09T09:11:09+03:00","note":"ΤΟ ΧΑΜΕΝΟΓΡΑΜΜΑ ΤΟ ΜΑΓΙΚΟΚΛΕΙΔΙ \u0026 Ο ΑΪΒΑΣΙΛΗΣ"},{"start":"2026-11-29T11:30:00+02:00","end":"2026-11-29T12:40:00+02:00","status":"available","status_text":"από 8€","checked_at":"2026-10-09T09:11:09+03:00","note":"ΤΟ ΧΑΜΕΝΟΓΡΑΜΜΑ ΤΟ ΜΑΓΙΚΟΚΛΕΙΔΙ \u0026 Ο ΑΪΒΑΣΙΛΗΣ"},{"start":"2026-12-06T11:30:00+02:00","end":"2026-12-06T12:40:00+02:00","status":"available","status_text":"από 8€","checked_at":"2026-10-09T09:11:09+03:00","note":"ΤΟ ΧΑΜΕΝΟΓΡΑΜΜΑ ΤΟ ΜΑΓΙΚΟΚΛΕΙΔΙ \u0026 Ο ΑΪΒΑΣΙΛΗΣ"},{"start":"2026-12-13T11:30:00+02:00","end":"2026-12-13T12:40:00+02:00","status":"available","status_text":"από 8€","checked_at":"2026-10-09T09:11:09+03:00","note":"ΤΟ ΧΑΜΕΝΟΓΡΑΜΜΑ ΤΟ ΜΑΓΙΚΟΚΛΕΙΔΙ \u0026 Ο ΑΪΒΑΣΙΛΗΣ"},{"start":"2026-12-20T11:30:00+02:00","end":"2026-12-20T12:40:00+02:00","status":"available","status_text":"από 8€","checked_at":"2026-10-09T09:11:09+03:00","note":"ΤΟ ΧΑΜΕΝΟΓΡΑΜΜΑ ΤΟ ΜΑΓΙΚΟΚΛΕΙΔΙ \u0026 Ο ΑΪΒΑΣΙΛΗΣ"},{"start":"2026-12-27T11:30:00+02:00","end":"2026-12-27T12:40:00+02:00","status":"available","status_text":"από 8€","checked_at":"2026-10-09T09:11:09+03:00","note":"ΤΟ ΧΑΜΕΝΟΓΡΑΜΜΑ ΤΟ ΜΑΓΙΚΟΚΛΕΙΔΙ \u0026 Ο ΑΪΒΑΣΙΛΗΣ"}],"image":"https://www.more.com/getattachment/aa6c2a6d-46a9-42db-8b5b-79dfd2a16b19/ΤΟ-ΧΑΜΕΝΟΓΡΑΜΜΑ-ΤΟ-ΜΑΓΙΚΟΚΛΕΙΔΙ---Ο-ΑΙΒΑΣΙΛΗΣ64a5a.png"},{"id":"piramaton-deinosauroi","title":"Μουσείο Πειραμάτων – Παλαιοντολογία: Στα ίχνη των δεινοσαύρων (4-6 ετών)","category":"workshop","organizer":"","venue":"Μουσείο Πειραμάτων Αγίου Δημητρίου","address":"Θάλειας 3, Άγιος Δημήτριος, Αθήνα","area":"south","ages":{"min":4,"max":6,"text":"4-6 ετών με ενήλικο συνοδό","source":"stated"},"price":{"text":"12€ (1 παιδί+1 ενήλικας) / 18€ (2 παιδιά ή 2 ενήλικες)","min":12,"max":18,"free":false},"booking_url":"https://www.mouseiopeiramaton.gr/event/%CF%80%CE%B1%CE%BB%CE%B1%CE%B9%CE%BF%CE%BD%CF%84%CE%BF%CE%BB%CE%BF%CE%B3%CE%B9%CE%B1-%CF%83%CF%84%CE%B1-%CE%B9%CF%87%CE%BD%CE%B7-%CF%84%CF%89%CE%BD-%CE%B4%CE%B5%CE%B9%CE%BD%CE%BF%CF%83%CE%B1-3/","source_url":"https://www.mouseiopeiramaton.gr/event/%CF%80%CE%B1%CE%BB%CE%B1%CE%B9%CE%BF%CE%BD%CF%84%CE%BF%CE%BB%CE%BF%CE%B3%CE%B9%CE%B1-%CF%83%CF%84%CE%B1-%CE%B9%CF%87%CE%BD%CE%B7-%CF%84%CF%89%CE%BD-%CE%B4%CE%B5%CE%B9%CE%BD%CE%BF%CF%83%CE%B1-3/","description":"Junior Science, 11:00-12:00.","tags":["εργαστήριο","science"],"sessions":[{"start":"2026-11-29T11:00:00+02:00","end":"2026-11-29T12:00:00+02:00","status":"available","status_text":"","checked_at":"2026-10-09T09:11:12+03:00","note":""}],"image":"https://www.mouseiopeiramaton.gr/wp-content/uploads/2026/09/ΠΑΛΑΙΟΝΤΟΛΟΓΙΑ-ΣΤΑ-ΙΧΝΗ-ΤΩΝ-ΔΕΙΝΟΣΑΥΡΩΝ.jpg"}]}</script>
+<script>
+(function(){
+"use strict";
+
+var DATA = JSON.parse(document.getElementById("kids-data").textContent);
+var PROGRAMS = DATA.programs || [];
+
+var CAT = {theatre:"Θέατρο", workshop:"Εργαστήριο", museum:"Μουσείο",
+           tour:"Ξενάγηση", music:"Μουσική", other:"Άλλο"};
+var CAT_ICON = {theatre:"🎭", workshop:"🎨", museum:"🏛️", tour:"🧭", music:"🎵", other:"🎈"};
+var CAT_COLOR = {theatre:"#7f4fd0", workshop:"#d97f28", museum:"#2f8ecb",
+                 tour:"#2f9a72", music:"#c74f7d", other:"#8b98a6"};
+var AREA = {"athens-center":"Αθήνα κέντρο", "north":"Βόρεια προάστια",
+            "south":"Νότια προάστια", "east":"Ανατολικά", "west":"Δυτικά",
+            "piraeus":"Πειραιάς", "other":"Άλλη περιοχή"};
+var WDS = ["Κυρ","Δευ","Τρί","Τετ","Πέμ","Παρ","Σάβ"];
+var AGES = {"0-3":[0,3], "4-6":[4,6], "7-9":[7,9], "10-12":[10,12], "13+":[13,Infinity]};
+var RE_ISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?([+-])(\d{2}):?(\d{2})$/;
+
+function pad2(n){ return (n < 10 ? "0" : "") + n; }
+function pad4(n){ return ("000" + n).slice(-4); }
+
+function parseIso(s){
+  if(!s) return null;
+  var str = String(s), m = RE_ISO.exec(str);
+  if(!m && /Z$/.test(str)) m = RE_ISO.exec(str.replace(/Z$/, "+00:00"));
+  if(!m) return null;
+  var o = {y:+m[1], mo:+m[2], d:+m[3], h:+m[4], mi:+m[5], s:+m[6]};
+  o.offMin = (m[7] === "-" ? -1 : 1) * (+m[8] * 60 + (+m[9]));
+  o.offStr = m[7] + m[8] + m[9];
+  o.dn = Math.floor(Date.UTC(o.y, o.mo - 1, o.d) / 864e5);
+  o.wd = new Date(Date.UTC(o.y, o.mo - 1, o.d)).getUTCDay();
+  return o;
+}
+function epochOf(p){ return Date.UTC(p.y, p.mo - 1, p.d, p.h, p.mi, p.s) - p.offMin * 60000; }
+function utcBasic(p){
+  var d = new Date(epochOf(p));
+  return pad4(d.getUTCFullYear()) + pad2(d.getUTCMonth() + 1) + pad2(d.getUTCDate()) + "T" +
+         pad2(d.getUTCHours()) + pad2(d.getUTCMinutes()) + pad2(d.getUTCSeconds()) + "Z";
+}
+function locBasic(p){ return pad4(p.y) + pad2(p.mo) + pad2(p.d) + "T" + pad2(p.h) + pad2(p.mi) + pad2(p.s); }
+function nowUtcBasic(){
+  var d = new Date();
+  return pad4(d.getUTCFullYear()) + pad2(d.getUTCMonth() + 1) + pad2(d.getUTCDate()) + "T" +
+         pad2(d.getUTCHours()) + pad2(d.getUTCMinutes()) + pad2(d.getUTCSeconds()) + "Z";
+}
+var GEN_STAMP = (function(){ var g = parseIso(DATA.generated_at); return g ? utcBasic(g) : nowUtcBasic(); })();
+
+function esc(s){
+  return String(s == null ? "" : s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function q(s){ return encodeURIComponent(String(s == null ? "" : s)); }
+
+function icsEsc(t){
+  return String(t == null ? "" : t)
+    .replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,")
+    .replace(/\r\n|\r|\n/g,"\\n");
+}
+
+/* ---- "now" in Athens (falls back to local when Intl tz is unavailable) ---- */
+function athToday(){
+  try{
+    var f = new Intl.DateTimeFormat("en-GB", {timeZone:"Europe/Athens",
+              year:"numeric", month:"2-digit", day:"2-digit"});
+    var p = {};
+    f.formatToParts(new Date()).forEach(function(x){ if(x.type !== "literal") p[x.type] = x.value; });
+    if(p.year && p.month && p.day) return {y:+p.year, mo:+p.month, d:+p.day};
+  }catch(e){}
+  var n = new Date();
+  return {y:n.getFullYear(), mo:n.getMonth() + 1, d:n.getDate()};
+}
+function dnOf(y, mo, d){ return Math.floor(Date.UTC(y, mo - 1, d) / 864e5); }
+
+/* ------------------- local storage: prefs + hidden events --------------- */
+var LS_PREFS = "kids.prefs.v1", LS_HIDDEN = "kids.hidden.v1";
+function lsGet(k, dflt){
+  try{ var v = localStorage.getItem(k); return v === null ? dflt : JSON.parse(v); }
+  catch(e){ return dflt; }
+}
+function lsSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+var prefs = lsGet(LS_PREFS, {age:"all", area:"all", cat:"all", showHidden:false});
+if(!prefs || typeof prefs !== "object") prefs = {age:"all", area:"all", cat:"all", showHidden:false};
+var HIDDEN = lsGet(LS_HIDDEN, []);
+if(!(HIDDEN instanceof Array)) HIDDEN = [];
+function isHidden(id){ return HIDDEN.indexOf(id) >= 0; }
+function setHidden(id, on){
+  var i = HIDDEN.indexOf(id);
+  if(on && i < 0) HIDDEN.push(id);
+  if(!on && i >= 0) HIDDEN.splice(i, 1);
+  lsSet(LS_HIDDEN, HIDDEN);
+}
+function isWide(){ return !!(window.matchMedia && window.matchMedia("(min-width:1000px)").matches); }
+/* A hidden id is kept only while that program is still in the data. When its
+   dates have passed the pipeline drops it from data.json and the id is purged,
+   so «kids.hidden.v1» never accumulates stale entries. */
+function pruneHidden(){
+  var seen = {}, kept = [], i;
+  for(i = 0; i < PROGRAMS.length; i++){ seen[PROGRAMS[i].id] = 1; }
+  for(i = 0; i < HIDDEN.length; i++){ if(seen[HIDDEN[i]]) kept.push(HIDDEN[i]); }
+  if(kept.length !== HIDDEN.length){
+    HIDDEN = kept;
+    lsSet(LS_HIDDEN, HIDDEN);
+  }
+}
+function byId(id){
+  for(var i = 0; i < PROGRAMS.length; i++){ if(PROGRAMS[i].id === id) return PROGRAMS[i]; }
+  return null;
+}
+
+/* ------------------------------ filter state ------------------------------ */
+var DEFAULTS = {q:"", age:"all", when:"all", area:"all", cat:"all", sort:"date", soldout:false,
+                view:"list", day:"", sel:""};
+var state = {q:"", age:"all", when:"all", area:"all", cat:"all", sort:"date", soldout:false,
+             view:"list", day:"", sel:""};
+
+function readHash(){
+  try{
+    var h = location.hash.replace(/^#/, "");
+    var sp = new URLSearchParams(h || "");
+    ["q","age","when","area","cat","sort"].forEach(function(k){
+      if(sp.has(k)){ var v = sp.get(k); if(k === "q") state.q = v; else if(v) state[k] = v; }
+    });
+    state.soldout = sp.get("so") === "1";
+    if(sp.get("view") === "cal") state.view = "cal";
+    if(/^\d{4}-\d{1,2}-\d{1,2}$/.test(sp.get("day") || "")) state.day = sp.get("day");
+    if(sp.get("sel")) state.sel = sp.get("sel");
+    /* saved defaults apply only when the link does not carry that filter */
+    ["age","area","cat"].forEach(function(k){
+      if(!sp.has(k) && prefs[k] && prefs[k] !== "all") state[k] = prefs[k];
+    });
+  }catch(e){}
+}
+function writeHash(){
+  try{
+    var sp = new URLSearchParams();
+    if(state.q) sp.set("q", state.q);
+    ["age","when","area","cat","sort"].forEach(function(k){
+      if(state[k] && state[k] !== DEFAULTS[k]) sp.set(k, state[k]);
+    });
+    if(state.soldout) sp.set("so", "1");
+    if(state.view === "cal") sp.set("view", "cal");
+    if(state.day) sp.set("day", state.day);
+    if(state.sel) sp.set("sel", state.sel);
+    var h = sp.toString();
+    try{ history.replaceState(null, "", location.pathname + location.search + (h ? "#" + h : "#")); }
+    catch(e){ location.hash = h; }
+  }catch(e){}
+}
+
+/* ------------------------------ predicates -------------------------------- */
+function hay(p){
+  return [p.title, p.venue, p.organizer, (p.tags || []).join(" "),
+          (p.ages && p.ages.text) || "", p.description || "", p.address || ""]
+         .join(" • ").toLowerCase();
+}
+function ageMatch(p, age){
+  if(age === "all" || !age) return true;
+  var a = p.ages || {};
+  if(a.min == null && a.max == null) return true;        /* unknown ages still shown */
+  var r = AGES[age];
+  if(!r) return true;
+  var lo = (a.min == null ? 0 : a.min);
+  var hi = (a.max == null ? Infinity : a.max);
+  return lo <= r[1] && hi >= r[0];
+}
+function whenMatch(s, when, today){
+  if(when === "all" || !when) return true;
+  var t = dnOf(today.y, today.mo, today.d);
+  var sd = s.dn;
+  if(sd === Infinity || sd == null) return false;
+  if(when === "today") return sd === t;
+  if(when === "tomorrow") return sd === t + 1;
+  if(when === "7days") return sd >= t && sd <= t + 6;
+  if(when === "weekend"){
+    var wd = new Date(Date.UTC(today.y, today.mo - 1, today.d)).getUTCDay(); /* 0=Sun .. 6=Sat */
+    var sat = t + ((6 - wd + 7) % 7);
+    var sun = sat + 1;
+    if(wd === 0){ sat = t - 1; sun = t; }   /* today is Sunday: this weekend = Sat/Sun */
+    return sd === sat || sd === sun;
+  }
+  return true;
+}
+
+/* --------------------------- prepare the programs ------------------------- */
+PROGRAMS.forEach(function(p, i){
+  p._i = i;
+  p._sessions = (p.sessions || []).map(function(raw, si){
+    var st = parseIso(raw.start), en = parseIso(raw.end);
+    return {raw:raw, start:st, end:en, si:si, pi:i,
+            status: raw.status || "unknown",
+            dn: st ? st.dn : Infinity};
+  });
+});
+
+/* ------------------------------- rendering -------------------------------- */
+function labelOf(s){
+  if(!s.start) return "—";
+  return WDS[s.start.wd] + " " + s.start.d + "/" + s.start.mo + " · " +
+         pad2(s.start.h) + ":" + pad2(s.start.mi);
+}
+function actionsHtml(p, s){
+  if(!s.start || !s.end) return "";
+  var title = p.title || "";
+  var loc = [p.venue, p.address].filter(Boolean).join(", ");
+  var details = [p.description || "",
+                 (s.raw.note ? ("Σημείωση: " + s.raw.note) : ""),
+                 (p.source_url ? ("Πηγή: " + p.source_url) : "")]
+                .filter(Boolean).join("\n");
+  var gurl = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+             "&text=" + q(title) +
+             "&dates=" + utcBasic(s.start) + "/" + utcBasic(s.end) +
+             "&location=" + q(loc) +
+             "&details=" + q(details) +
+             "&ctz=Europe/Athens";
+  var uid = (p.id || ("p" + s.pi)) + "-" + locBasic(s.start) + "-kids";
+  var icsLines = [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Paidikes Ekdiloseis//EL//EN",
+    "CALSCALE:GREGORIAN", "BEGIN:VEVENT",
+    "UID:" + icsEsc(uid),
+    "DTSTAMP:" + GEN_STAMP,
+    "DTSTART:" + locBasic(s.start) + s.start.offStr,
+    "DTEND:" + locBasic(s.end) + s.end.offStr,
+    "SUMMARY:" + icsEsc(title),
+    "LOCATION:" + icsEsc(loc),
+    "DESCRIPTION:" + icsEsc(details),
+    "END:VEVENT", "END:VCALENDAR", ""
+  ];
+  var ics = icsLines.join("\r\n");
+  var dataUri = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+  var fn = (p.id || ("p" + s.pi)) + "-" + locBasic(s.start).slice(0, 13) + ".ics";
+
+  var h = "";
+  if(p.booking_url){
+    h += '<a class="act act-book" target="_blank" rel="noopener" href="' + esc(p.booking_url) + '"' +
+         ' aria-label="' + esc("Κράτηση: " + title + " (" + labelOf(s) + ")") + '">Κράτηση</a>';
+  }
+  h += '<span class="act-links">στο ημερολόγιό μου: ' +
+       '<a class="lnk-s" target="_blank" rel="noopener" href="' + esc(gurl) + '"' +
+       ' aria-label="' + esc("Προσθήκη στο Google Ημερολόγιο: " + title + " (" + labelOf(s) + ")") + '">Google</a> · ' +
+       '<a class="lnk-s" download="' + esc(fn) + '" href="' + dataUri + '"' +
+       ' aria-label="' + esc("Λήψη αρχείου .ics: " + title + " (" + labelOf(s) + ")") + '">.ics</a></span>';
+  return h;
+}
+function sessionHtml(p, s){
+  var label = labelOf(s);
+  var note = (s.raw.note || "").trim();
+  if(s.status === "sold_out"){
+    return '<div class="sess"><span class="chip chip--soldout" aria-disabled="true">' +
+           '<span class="chip-day">' + esc(label) + '</span>' + (note ? '<span class="chip-note">' + esc(note) + '</span>' : '') +
+           '<span class="badge-sold">SOLD OUT</span></span></div>';
+  }
+  var sub = s.status === "unknown" ? '<span class="chip-sub">βλ. πηγή</span>'
+          : s.status === "few" ? '<span class="chip-sub">λίγες θέσεις</span>' : "";
+  return '<div class="sess"><button type="button" class="chip" aria-expanded="false"' +
+         ' aria-label="' + esc("Ενέργειες: " + (p.title || "") + " — " + label) + '">' +
+         '<span class="chip-day">' + esc(label) + '</span>' +
+         (note ? '<span class="chip-note">' + esc(note) + '</span>' : '') + sub +
+         '</button><div class="actions" hidden>' + actionsHtml(p, s) + '</div></div>';
+}
+function agesText(p){
+  var a = p.ages || {};
+  if(a.min == null && a.max == null) return "";
+  if(a.text) return a.text;
+  if(a.min != null && a.max != null) return a.min + "–" + a.max;
+  if(a.min != null) return a.min + "+";
+  return "έως " + a.max;
+}
+/* Compact card: only the essentials at a glance (title, where, ages, price,
+   the next couple of dates). Everything else lives behind «Περισσότερα». */
+function cardHtml(item, opts){
+  opts = opts || {};
+  var p = item.p, a = p.ages || {}, pr = p.price || {};
+  var cat = p.category || "other", areaLbl = AREA[p.area] || "";
+  var priceTxt = pr.free ? "δωρεάν" : (pr.text || "");
+  var agesTxt = agesText(p);
+  var shown = item.sessions, first = shown.slice(0, 2), rest = shown.slice(2);
+
+  var chips = first.map(function(s){ return sessionHtml(p, s); }).join("");
+  if(rest.length){
+    chips += '<button type="button" class="mored" aria-expanded="false">+' + rest.length + " ακόμη</button>";
+  }
+  var restHtml = rest.length
+    ? '<div class="sessions rest" hidden>' + rest.map(function(s){ return sessionHtml(p, s); }).join("") + "</div>"
+    : "";
+
+  /* one compact meta line: where · ages · price. Ages are always shown
+     («δεν αναφέρεται» when the source is silent); cost only when known. */
+  var meta = '<span><span aria-hidden="true">📍 </span><b>' + esc(p.venue || "") + "</b>" +
+             (areaLbl ? " · " + esc(areaLbl) : "") + "</span>";
+  meta += "<span" + (agesTxt ? "" : ' class="inf"') + ">Ηλικίες: <b>" + esc(agesTxt || "δεν αναφέρεται") + "</b>" +
+          (a.source === "inferred" ? ' <span class="inf">(εκτίμηση)</span>' : "") + "</span>";
+  if(priceTxt) meta += "<span>" + esc(priceTxt) + "</span>";
+
+  var hid = isHidden(p.id);
+  var badges = '<span class="badge" style="background:' + esc(CAT_COLOR[cat] || "#8b98a6") +
+               ';color:#fff">' + esc(CAT[cat] || CAT.other) + "</span>" +
+               (hid ? ' <span class="badge badge--hidden">Κρυμμένο</span>' : "");
+  var ctrl = hid
+    ? '<button type="button" class="unhidebtn" data-unhide="' + esc(p.id) + '">Επαναφορά</button>'
+    : '<button type="button" class="hidebtn" data-hide="' + esc(p.id) +
+      '" title="Δεν με ενδιαφέρει — κρύψε το" aria-label="' + esc("Απόκρυψη εκδήλωσης: " + (p.title || "")) + '">✕</button>';
+
+  var det = "";
+  if(p.description || p.organizer || p.address || p.source_url || p.image){
+    det = '<details class="desc"' + (opts.openDetails ? " open" : "") + '><summary>Περισσότερα</summary>' +
+          (p.image ? '<img class="evimg" src="' + esc(p.image) + '" alt="' + esc(p.title || "") +
+                     '" loading="lazy" referrerpolicy="no-referrer">' : "") +
+          (p.description ? "<p>" + esc(p.description) + "</p>" : "") +
+          (p.address ? '<p class="org"><span aria-hidden="true">📍 </span>' + esc(p.venue ? (p.venue + ", " + p.address) : p.address) + "</p>" : "") +
+          (p.organizer ? '<p class="org">Οργανωτής: ' + esc(p.organizer) + "</p>" : "") +
+          (p.source_url ? '<p class="org"><a class="lnk-s" target="_blank" rel="noopener" href="' + esc(p.source_url) + '">Πηγή &amp; περισσότερες πληροφορίες</a></p>' : "") +
+          "</details>";
+  }
+
+  var thumb = p.image
+    ? '<span class="thumb"><img src="' + esc(p.image) + '" alt="" loading="lazy" referrerpolicy="no-referrer"></span>'
+    : '<span class="thumb" aria-hidden="true" style="background:' + esc(CAT_COLOR[cat] || "#eef2f6") + '33">' +
+      esc(CAT_ICON[cat] || CAT_ICON.other) + "</span>";
+
+  return '<article class="card" data-pid="' + esc(p.id) + '" style="--c:' + esc(CAT_COLOR[cat] || "#dbe4ec") + '">' +
+    '<div class="cbody"><div class="ctext">' +
+    '<div class="crow"><h2 class="ctitle"><button type="button" class="tlink" data-details="' + esc(p.id) + '"' +
+    ' aria-label="' + esc("Λεπτομέρειες: " + (p.title || "")) + '">' + esc(p.title || "") + "</button></h2>" +
+    '<span class="badges">' + badges + ctrl + "</span></div>" +
+    '<p class="line">' + meta + "</p>" +
+    '<div class="next">' + chips + "</div>" +
+    "</div>" + thumb + "</div>" +
+    restHtml + det + "</article>";
+}
+function priceVal(p){
+  var pr = p.price || {};
+  if(pr.free) return 0;
+  return (pr.min == null ? Infinity : pr.min);
+}
+function sortList(list){
+  if(state.sort === "title"){
+    list.sort(function(a, b){ return String(a.p.title || "").localeCompare(String(b.p.title || ""), "el"); });
+  } else if(state.sort === "price"){
+    list.sort(function(a, b){
+      var d = priceVal(a.p) - priceVal(b.p);
+      return d || String(a.p.title || "").localeCompare(String(b.p.title || ""), "el");
+    });
+  } else {
+    var mn = function(x){ var m = Infinity; x.sessions.forEach(function(s){ if(s.dn < m) m = s.dn; }); return m; };
+    list.sort(function(a, b){ return mn(a) - mn(b); });
+  }
+}
+
+var cardsEl = document.getElementById("cards");
+var resEl = document.getElementById("res");
+var soldEl = document.getElementById("soldonly");
+
+function render(){
+  var today = athToday();
+  var qq = state.q.trim().toLowerCase();
+  var list = [], soldOnly = 0;
+
+  for(var i = 0; i < PROGRAMS.length; i++){
+    var p = PROGRAMS[i];
+    if(isHidden(p.id) && !prefs.showHidden) continue;
+    if(qq && hay(p).indexOf(qq) < 0) continue;
+    if(!ageMatch(p, state.age)) continue;
+    if(state.area !== "all" && p.area !== state.area) continue;
+    if(state.cat !== "all" && p.category !== state.cat) continue;
+
+    var matched = p._sessions.filter(function(s){ return whenMatch(s, state.when, today); });
+    if(state.day){
+      var dp = state.day.split("-"), ddn = dnOf(+dp[0], +dp[1], +dp[2]);
+      matched = matched.filter(function(s){ return s.dn === ddn; });
+    }
+    var shown = state.soldout ? matched
+                              : matched.filter(function(s){ return s.status !== "sold_out"; });
+    if(shown.length > 0){
+      list.push({p:p, sessions:shown});
+    } else if(!state.soldout && matched.length > 0){
+      soldOnly++;
+    }
+  }
+  sortList(list);
+
+  if(list.length === 0){
+    cardsEl.innerHTML = '<p class="empty">Δεν βρέθηκαν εκδηλώσεις με τα φίλτρα σας. ' +
+                        'Δοκιμάστε να τα χαλαρώσετε ή πατήστε «Καθαρισμός φίλτρων».</p>';
+  } else {
+    cardsEl.innerHTML = list.map(cardHtml).join("");
+  }
+
+  var daySuffix = "";
+  if(state.day){
+    var dp2 = state.day.split("-");
+    daySuffix = " · " + WDS[new Date(Date.UTC(+dp2[0], +dp2[1] - 1, +dp2[2])).getUTCDay()] +
+                " " + (+dp2[2]) + "/" + (+dp2[1]);
+  }
+  resEl.textContent = "Εμφανίζονται " + list.length + " από " + PROGRAMS.length +
+                      " εκδηλώσεις" + daySuffix + ".";
+  if(soldOnly > 0 && !state.soldout){
+    soldEl.hidden = false;
+    soldEl.textContent = "+ " + soldOnly + " εκδηλώσεις μόνο με sold out ημερομηνίες";
+  } else {
+    soldEl.hidden = true;
+    soldEl.textContent = "";
+  }
+  updateFcount();
+}
+
+/* ------------------------------- controls --------------------------------- */
+var qEl = document.getElementById("q");
+var areaEl = document.getElementById("area");
+var catEl = document.getElementById("cat");
+var sortEl = document.getElementById("sort");
+var soldElChk = document.getElementById("soldout");
+var ageChips = document.getElementById("ageChips");
+var whenChips = document.getElementById("whenChips");
+
+function syncUI(){
+  qEl.value = state.q;
+  areaEl.value = state.area;
+  catEl.value = state.cat;
+  sortEl.value = state.sort;
+  soldElChk.checked = !!state.soldout;
+  syncChips(ageChips, "age");
+  syncChips(whenChips, "when");
+}
+function syncChips(container, key){
+  var btns = container.querySelectorAll("button[data-v]");
+  for(var i = 0; i < btns.length; i++){
+    var on = btns[i].getAttribute("data-v") === state[key];
+    btns[i].setAttribute("aria-pressed", on ? "true" : "false");
+  }
+}
+function bindChips(container, key){
+  container.addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest("button[data-v]") : null;
+    if(!b) return;
+    state[key] = b.getAttribute("data-v");
+    syncChips(container, key);
+    writeHash();
+    refresh();
+  });
+}
+bindChips(ageChips, "age");
+bindChips(whenChips, "when");
+
+qEl.addEventListener("input", function(){ state.q = qEl.value; writeHash(); refresh(); });
+areaEl.addEventListener("change", function(){ state.area = areaEl.value; writeHash(); refresh(); });
+catEl.addEventListener("change", function(){ state.cat = catEl.value; writeHash(); refresh(); });
+sortEl.addEventListener("change", function(){ state.sort = sortEl.value; writeHash(); refresh(); });
+soldElChk.addEventListener("change", function(){ state.soldout = soldElChk.checked; writeHash(); refresh(); });
+
+document.getElementById("clear").addEventListener("click", function(){
+  var v = state.view;
+  state = {q:"", age:"all", when:"all", area:"all", cat:"all", sort:"date", soldout:false,
+           view:v, day:""};
+  syncUI();
+  setView(v);
+});
+
+/* delegated interactions: session chips, «+N ακόμη», calendar day-panel close
+   (bound on document so it also works inside the calendar view) */
+document.addEventListener("click", function(e){
+  if(!e.target.closest) return;
+  var hideBtn = e.target.closest("[data-hide]");
+  if(hideBtn){
+    var hid = hideBtn.getAttribute("data-hide");
+    setHidden(hid, true);
+    if(state.sel === hid) state.sel = "";
+    refresh(); updateHiddenCount();
+    return;
+  }
+  var unBtn = e.target.closest("[data-unhide]");
+  if(unBtn){ setHidden(unBtn.getAttribute("data-unhide"), false); refresh(); updateHiddenCount(); return; }
+  var dl = e.target.closest("[data-details]");
+  if(dl){
+    var did = dl.getAttribute("data-details");
+    if(isWide()){
+      state.sel = (state.sel === did) ? "" : did;
+      writeHash();
+    } else {
+      var c = dl.closest("article.card");
+      var det = c ? c.querySelector("details.desc") : null;
+      if(det){ det.open = !det.open; if(det.open && det.scrollIntoView) det.scrollIntoView({block: "nearest"}); }
+    }
+    return;
+  }
+  var more = e.target.closest("button.mored");
+  if(more){
+    var card = more.closest("article.card");
+    var rest = card ? card.querySelector(".sessions.rest") : null;
+    if(rest){
+      var openRest = !rest.hasAttribute("hidden");
+      if(openRest){
+        rest.setAttribute("hidden", "");
+        more.textContent = more.getAttribute("data-label") || more.textContent;
+      } else {
+        more.setAttribute("data-label", more.textContent);
+        rest.removeAttribute("hidden");
+        more.textContent = "− λιγότερες";
+      }
+      more.setAttribute("aria-expanded", openRest ? "false" : "true");
+    }
+    return;
+  }
+  var close = e.target.closest("#calDayClose");
+  if(close){ state.day = ""; if(state.view === "cal"){ renderCalendar(); } else { render(); } writeHash(); return; }
+  var b = e.target.closest("button.chip");
+  if(!b) return;
+  var box = b.nextElementSibling;
+  if(!box || box.className.indexOf("actions") < 0) return;
+  var open = !box.hasAttribute("hidden");
+  if(open){ box.setAttribute("hidden", ""); } else { box.removeAttribute("hidden"); }
+  b.setAttribute("aria-expanded", open ? "false" : "true");
+});
+
+function activeFilterCount(){
+  var n = 0;
+  if(state.q.trim()) n++;
+  ["age","when","area","cat"].forEach(function(k){ if(state[k] && state[k] !== "all") n++; });
+  if(state.soldout) n++;
+  if(state.day) n++;
+  return n;
+}
+function updateFcount(){
+  var el = document.getElementById("fcount");
+  if(!el) return;
+  var n = activeFilterCount();
+  el.setAttribute("data-n", String(n));
+  el.textContent = n ? n + " ενεργά" : "";
+}
+/* ------------------------------- views ------------------------------------ */
+var calViewEl = document.getElementById("calView");
+var calGridEl = document.getElementById("calGrid");
+var calTitleEl = document.getElementById("calTitle");
+var calFootEl = document.getElementById("calFoot");
+var vListBtn = document.getElementById("vList");
+var vCalBtn = document.getElementById("vCal");
+var MN = ["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος",
+          "Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"];
+var calYM = null;
+
+function baseFilteredSessions(){
+  var out = [], qq = state.q.trim().toLowerCase();
+  for(var i = 0; i < PROGRAMS.length; i++){
+    var p = PROGRAMS[i];
+    if(isHidden(p.id) && !prefs.showHidden) continue;
+    if(qq && hay(p).indexOf(qq) < 0) continue;
+    if(!ageMatch(p, state.age)) continue;
+    if(state.area !== "all" && p.area !== state.area) continue;
+    if(state.cat !== "all" && p.category !== state.cat) continue;
+    for(var j = 0; j < p._sessions.length; j++){
+      var s = p._sessions[j];
+      if(!s.start) continue;
+      if(s.status === "sold_out" && !state.soldout) continue;
+      out.push({p:p, s:s});
+    }
+  }
+  return out;
+}
+function firstSession(all){
+  var best = null;
+  for(var i = 0; i < all.length; i++){ if(!best || all[i].s.dn < best.s.dn) best = all[i]; }
+  return best;
+}
+function renderCalendar(){
+  var today = athToday(), all = baseFilteredSessions();
+  if(!calYM){
+    var seed = firstSession(all);
+    calYM = seed ? {y:seed.s.start.y, mo:seed.s.start.mo} : {y:today.y, mo:today.mo};
+  }
+  var y = calYM.y, mo = calYM.mo;
+  calTitleEl.textContent = MN[mo - 1] + " " + y;
+  var byDay = {};
+  all.forEach(function(x){
+    var k = x.s.start.y + "-" + x.s.start.mo + "-" + x.s.start.d;
+    (byDay[k] = byDay[k] || []).push(x);
+  });
+  var fdow = (new Date(Date.UTC(y, mo - 1, 1)).getUTCDay() + 6) % 7;  /* Monday first */
+  var dim = new Date(Date.UTC(y, mo, 0)).getUTCDate();
+  var html = "";
+  ["Δευ","Τρί","Τετ","Πέμ","Παρ","Σάβ","Κυρ"].forEach(function(w){
+    html += '<div class="gwd">' + w + "</div>";
+  });
+  for(var b = 0; b < fdow; b++) html += '<div class="day day--out" aria-hidden="true"></div>';
+  for(var d = 1; d <= dim; d++){
+    var key = y + "-" + mo + "-" + d, items = byDay[key] || [];
+    var cls = "day" + (items.length ? " day--has" : "") +
+              (state.day === key ? " day--sel" : "") +
+              ((today.y === y && today.mo === mo && today.d === d) ? " day--today" : "");
+    var inner = '<span class="daynum">' + d + "</span>";
+    if(items.length){
+      items.slice(0, 3).forEach(function(x){
+        var sold = x.s.status === "sold_out";
+        inner += '<span class="ev ' + (sold ? "ev--sold" : "ev--" + (x.p.category || "other")) + '">' +
+                 esc(pad2(x.s.start.h) + ":" + pad2(x.s.start.mi) + " " +
+                     String(x.p.title || "").slice(0, 24)) + "</span>";
+      });
+      if(items.length > 3) inner += '<span class="more">+' + (items.length - 3) + "</span>";
+      inner += '<span class="cnt" aria-hidden="true">' + items.length + "</span>";
+    }
+    html += items.length
+      ? '<div class="' + cls + '" data-day="' + key + '" role="button" tabindex="0" aria-label="' +
+        esc(items.length + " εκδηλώσεις — άνοιξε τη λίστα") + '">' + inner + "</div>"
+      : '<div class="' + cls + '">' + inner + "</div>";
+  }
+  calGridEl.innerHTML = html;
+  calFootEl.textContent = all.length
+    ? "Πάτησε μια μέρα για να δεις τι παίζει τότε — η προβολή δεν αλλάζει."
+    : "Καμία συνεδρία με τα τρέχοντα φίλτρα.";
+  renderDayPanel(all);
+  updateFcount();
+}
+/* Day details: shown inside the calendar on narrow screens, and in the right
+   column on desktop — the page view never switches. */
+function dayPanelHtml(all){
+  var dp = state.day.split("-"), ddn = dnOf(+dp[0], +dp[1], +dp[2]);
+  var items = all.filter(function(x){ return x.s.dn === ddn; });
+  if(!items.length) return "";
+  var byProg = {}, order = [];
+  items.forEach(function(x){
+    if(!byProg[x.p.id]){ byProg[x.p.id] = {p:x.p, sessions:[]}; order.push(x.p.id); }
+    byProg[x.p.id].sessions.push(x.s);
+  });
+  var list = order.map(function(id){ return byProg[id]; });
+  list.sort(function(a, b){ return String(a.p.title || "").localeCompare(String(b.p.title || ""), "el"); });
+  var lbl = WDS[new Date(Date.UTC(+dp[0], +dp[1] - 1, +dp[2])).getUTCDay()] + " " + (+dp[2]) + "/" + (+dp[1]);
+  return '<div class="caldayhead"><h3>' + esc(lbl + " · " + items.length + " εκδηλώσεις") + "</h3>" +
+         '<button type="button" class="clearday" id="calDayClose" aria-label="Κλείσιμο ημέρας">✕</button></div>' +
+         '<div class="cards">' + list.map(cardHtml).join("") + "</div>" +
+         (state.soldout ? "" : '<p class="calfoot">Τα sold out κρύβονται — άνοιξε το «Δείξε και τα sold out» για να τα δεις.</p>');
+}
+function renderDayPanel(all){
+  var el = document.getElementById("calDay");
+  if(!el) return;
+  var html = state.day ? dayPanelHtml(all) : "";
+  el.hidden = !html;
+  el.innerHTML = html;
+}
+function pickDay(key){
+  state.day = (state.day === key) ? "" : key;
+  state.sel = "";
+  state.when = "all";
+  renderCalendar();
+  writeHash();
+}
+function setView(v){
+  state.view = v;
+  var isCal = v === "cal";
+  calViewEl.hidden = !isCal;
+  vCalBtn.setAttribute("aria-pressed", isCal ? "true" : "false");
+  vListBtn.setAttribute("aria-pressed", isCal ? "false" : "true");
+  writeHash();
+  if(isCal) renderCalendar(); else render();
+}
+function refresh(){
+  pruneHidden();
+  if(state.view === "cal") renderCalendar(); else render();
+}
+
+calGridEl.addEventListener("click", function(e){
+  var d = e.target.closest ? e.target.closest("[data-day]") : null;
+  if(d && calGridEl.contains(d)) pickDay(d.getAttribute("data-day"));
+});
+calGridEl.addEventListener("keydown", function(e){
+  if(e.key !== "Enter" && e.key !== " ") return;
+  var d = e.target.closest ? e.target.closest("[data-day]") : null;
+  if(d){ e.preventDefault(); pickDay(d.getAttribute("data-day")); }
+});
+document.getElementById("calPrev").addEventListener("click", function(){
+  if(!calYM) renderCalendar();
+  calYM.mo--; if(calYM.mo < 1){ calYM.mo = 12; calYM.y--; }
+  renderCalendar();
+});
+document.getElementById("calNext").addEventListener("click", function(){
+  if(!calYM) renderCalendar();
+  calYM.mo++; if(calYM.mo > 12){ calYM.mo = 1; calYM.y++; }
+  renderCalendar();
+});
+document.getElementById("calToday").addEventListener("click", function(){
+  var t = athToday(); calYM = {y:t.y, mo:t.mo}; renderCalendar();
+});
+vListBtn.addEventListener("click", function(){ setView("list"); });
+vCalBtn.addEventListener("click", function(){ setView("cal"); });
+
+/* ------------------------------- settings -------------------------------- */
+var gearEl = document.getElementById("gear");
+var prefsEl = document.getElementById("prefs");
+var defAgeEl = document.getElementById("defAge");
+var defAreaEl = document.getElementById("defArea");
+var defCatEl = document.getElementById("defCat");
+var showHiddenEl = document.getElementById("showHidden");
+
+function updateHiddenCount(){
+  var el = document.getElementById("hiddenCount");
+  if(!el) return;
+  el.textContent = HIDDEN.length
+    ? "Έχεις κρύψει " + HIDDEN.length + (HIDDEN.length === 1 ? " εκδήλωση." : " εκδηλώσεις.")
+    : "Δεν έχεις κρύψει καμία εκδήλωση.";
+}
+function syncPrefsUI(){
+  defAgeEl.value = prefs.age || "all";
+  defAreaEl.value = prefs.area || "all";
+  defCatEl.value = prefs.cat || "all";
+  showHiddenEl.checked = !!prefs.showHidden;
+  updateHiddenCount();
+}
+function applyPrefsAsFilters(){
+  lsSet(LS_PREFS, prefs);
+  state.age = prefs.age || "all";
+  state.area = prefs.area || "all";
+  state.cat = prefs.cat || "all";
+  syncUI(); writeHash(); refresh();
+}
+gearEl.addEventListener("click", function(){
+  prefsEl.hidden = !prefsEl.hidden;
+  gearEl.setAttribute("aria-expanded", prefsEl.hidden ? "false" : "true");
+});
+document.getElementById("closePrefs").addEventListener("click", function(){
+  prefsEl.hidden = true;
+  gearEl.setAttribute("aria-expanded", "false");
+});
+defAgeEl.addEventListener("change", function(){ prefs.age = defAgeEl.value; applyPrefsAsFilters(); });
+defAreaEl.addEventListener("change", function(){ prefs.area = defAreaEl.value; applyPrefsAsFilters(); });
+defCatEl.addEventListener("change", function(){ prefs.cat = defCatEl.value; applyPrefsAsFilters(); });
+showHiddenEl.addEventListener("change", function(){
+  prefs.showHidden = showHiddenEl.checked;
+  lsSet(LS_PREFS, prefs);
+  refresh();
+});
+document.getElementById("clearHidden").addEventListener("click", function(){
+  HIDDEN = [];
+  lsSet(LS_HIDDEN, HIDDEN);
+  updateHiddenCount(); refresh(); updateFcount();
+});
+window.addEventListener("resize", function(){ refresh(); });
+window.addEventListener("error", function(ev){
+  var t = ev.target;
+  if(t && t.tagName === "IMG"){ t.style.display = "none"; }
+}, true);
+
+/* ------------------------------- boot ------------------------------------- */
+readHash();
+pruneHidden();
+syncUI();
+syncPrefsUI();
+try{ if(window.innerWidth >= 700){ document.getElementById("filtersBox").open = true; } }catch(e){}
+if(state.view === "cal") setView("cal"); else { render(); }
+})();
+</script>
+</body>
+</html>
