@@ -56,6 +56,10 @@ h1{font-size:1.4rem;line-height:1.25;margin:0 0 4px}
 .ptitle{font-size:.95rem;margin:0 0 8px}
 .pnote{margin:8px 0 0;font-size:.78rem;color:var(--muted)}
 @media (min-width:1000px){ .wrap{max-width:880px} }
+.icon{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;vertical-align:-.16em;flex:0 0 auto}
+.icon-pin{width:.95em;height:.95em;stroke-width:2;vertical-align:-.12em}
+.gear .icon{width:22px;height:22px}
 .badge--hidden{background:#eceff2;color:#5a666f}
 .hidebtn{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:9px;
   min-height:32px;min-width:32px;padding:3px 9px;font:inherit;font-size:.78rem;cursor:pointer}
@@ -67,8 +71,9 @@ h1{font-size:1.4rem;line-height:1.25;margin:0 0 4px}
 .fsum{display:flex;align-items:center;gap:8px;min-height:48px;padding:10px 12px;cursor:pointer;
   font-weight:700;font-size:.95rem;color:var(--accent);list-style:none}
 .fsum::-webkit-details-marker{display:none}
-.fsum::after{content:"▾";margin-left:auto;color:var(--muted);font-size:.9rem}
-.filters[open] .fsum::after{content:"▴"}
+.fsum::after{content:"";margin-left:auto;width:0;height:0;
+  border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--muted)}
+.filters[open] .fsum::after{border-top:0;border-bottom:6px solid var(--muted)}
 .fcount{display:none;font-size:.75rem;font-weight:800;background:var(--accent);color:var(--accent-ink);
   border-radius:999px;padding:2px 8px}
 .fcount[data-n]:not([data-n="0"]){display:inline-block}
@@ -110,9 +115,10 @@ fieldset.fs legend{font-size:.8rem;font-weight:700;color:var(--muted);padding:0 
 .cbody{display:flex;gap:10px;align-items:flex-start}
 .ctext{flex:1 1 auto;min-width:0}
 .thumb{flex:0 0 auto;width:58px;height:58px;border-radius:12px;overflow:hidden;background:#eef2f6;
-  display:flex;align-items:center;justify-content:center;font-size:1.5rem;line-height:1}
+  display:flex;align-items:center;justify-content:center;font-size:1.45rem;font-weight:800;line-height:1;
+  color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.18)}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-@media (max-width:480px){ .thumb{width:48px;height:48px;font-size:1.25rem;border-radius:10px}
+@media (max-width:480px){ .thumb{width:48px;height:48px;font-size:1.2rem;border-radius:10px}
   .hero{padding:14px 12px 12px} .hero h1{font-size:1.4rem} }
 .crow{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;margin:0 0 3px}
 .crow .ctitle{margin:0;flex:1 1 auto}
@@ -272,7 +278,7 @@ footer.site{margin-top:26px;font-size:.78rem;color:var(--muted);text-align:cente
           <p class="sub">Θέατρο, εργαστήρια και μουσεία — ό,τι παίζει τις επόμενες εβδομάδες.</p>
         </div>
         <button type="button" class="gear" id="gear" aria-expanded="false" aria-controls="prefs"
-                aria-label="Ρυθμίσεις" title="Ρυθμίσεις">⚙️</button>
+                aria-label="Ρυθμίσεις" title="Ρυθμίσεις"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
       </div>
       <p class="counts">21 εκδηλώσεις · 115 παραστάσεις/συνεδρίες</p>
       <p class="updated">Ενημέρωση: <time datetime="2026-10-09T10:11:40+03:00">Παρασκευή 9 Οκτωβρίου 2026, 10:11</time></p>
@@ -329,7 +335,7 @@ footer.site{margin-top:26px;font-size:.78rem;color:var(--muted);text-align:cente
   <main>
     <details class="filters" id="filtersBox">
       <summary class="fsum">
-        <span class="fsum-t">🔎 Αναζήτηση &amp; φίλτρα</span>
+        <span class="fsum-t">Αναζήτηση &amp; φίλτρα</span>
         <span class="fcount" id="fcount" aria-live="polite"></span>
       </summary>
       <div class="fbody">
@@ -450,7 +456,7 @@ var PROGRAMS = DATA.programs || [];
 
 var CAT = {theatre:"Θέατρο", workshop:"Εργαστήριο", museum:"Μουσείο",
            tour:"Ξενάγηση", music:"Μουσική", other:"Άλλο"};
-var CAT_ICON = {theatre:"🎭", workshop:"🎨", museum:"🏛️", tour:"🧭", music:"🎵", other:"🎈"};
+var CAT_ICON = {theatre:"Θ", workshop:"Ε", museum:"Μ", tour:"Ξ", music:"♪", other:"•"};
 var CAT_COLOR = {theatre:"#7f4fd0", workshop:"#d97f28", museum:"#2f8ecb",
                  tour:"#2f9a72", music:"#c74f7d", other:"#8b98a6"};
 var AREA = {"athens-center":"Αθήνα κέντρο", "north":"Βόρεια προάστια",
@@ -702,6 +708,7 @@ function sessionHtml(p, s){
          (note ? '<span class="chip-note">' + esc(note) + '</span>' : '') + sub +
          '</button><div class="actions" hidden>' + actionsHtml(p, s) + '</div></div>';
 }
+var ICON_PIN = '<svg class="icon icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
 function agesText(p){
   var a = p.ages || {};
   if(a.min == null && a.max == null) return "";
@@ -730,7 +737,7 @@ function cardHtml(item, opts){
 
   /* one compact meta line: where · ages · price. Ages are always shown
      («δεν αναφέρεται» when the source is silent); cost only when known. */
-  var meta = '<span><span aria-hidden="true">📍 </span><b>' + esc(p.venue || "") + "</b>" +
+  var meta = '<span>' + ICON_PIN + '<b>' + esc(p.venue || "") + "</b>" +
              (areaLbl ? " · " + esc(areaLbl) : "") + "</span>";
   meta += "<span" + (agesTxt ? "" : ' class="inf"') + ">Ηλικίες: <b>" + esc(agesTxt || "δεν αναφέρεται") + "</b>" +
           (a.source === "inferred" ? ' <span class="inf">(εκτίμηση)</span>' : "") + "</span>";
@@ -743,7 +750,7 @@ function cardHtml(item, opts){
   var ctrl = hid
     ? '<button type="button" class="unhidebtn" data-unhide="' + esc(p.id) + '">Επαναφορά</button>'
     : '<button type="button" class="hidebtn" data-hide="' + esc(p.id) +
-      '" title="Δεν με ενδιαφέρει — κρύψε το" aria-label="' + esc("Απόκρυψη εκδήλωσης: " + (p.title || "")) + '">✕</button>';
+      '" title="Δεν με ενδιαφέρει — κρύψε το" aria-label="' + esc("Απόκρυψη εκδήλωσης: " + (p.title || "")) + '">×</button>';
 
   var det = "";
   if(p.description || p.organizer || p.address || p.source_url || p.image){
@@ -751,7 +758,7 @@ function cardHtml(item, opts){
           (p.image ? '<img class="evimg" src="' + esc(p.image) + '" alt="' + esc(p.title || "") +
                      '" loading="lazy" referrerpolicy="no-referrer">' : "") +
           (p.description ? "<p>" + esc(p.description) + "</p>" : "") +
-          (p.address ? '<p class="org"><span aria-hidden="true">📍 </span>' + esc(p.venue ? (p.venue + ", " + p.address) : p.address) + "</p>" : "") +
+          (p.address ? '<p class="org">' + ICON_PIN + ' ' + esc(p.venue ? (p.venue + ", " + p.address) : p.address) + "</p>" : "") +
           (p.organizer ? '<p class="org">Οργανωτής: ' + esc(p.organizer) + "</p>" : "") +
           (p.source_url ? '<p class="org"><a class="lnk-s" target="_blank" rel="noopener" href="' + esc(p.source_url) + '">Πηγή &amp; περισσότερες πληροφορίες</a></p>' : "") +
           "</details>";
@@ -1068,7 +1075,7 @@ function dayPanelHtml(all){
   list.sort(function(a, b){ return String(a.p.title || "").localeCompare(String(b.p.title || ""), "el"); });
   var lbl = WDS[new Date(Date.UTC(+dp[0], +dp[1] - 1, +dp[2])).getUTCDay()] + " " + (+dp[2]) + "/" + (+dp[1]);
   return '<div class="caldayhead"><h3>' + esc(lbl + " · " + items.length + " εκδηλώσεις") + "</h3>" +
-         '<button type="button" class="clearday" id="calDayClose" aria-label="Κλείσιμο ημέρας">✕</button></div>' +
+         '<button type="button" class="clearday" id="calDayClose" aria-label="Κλείσιμο ημέρας">×</button></div>' +
          '<div class="cards">' + list.map(cardHtml).join("") + "</div>" +
          (state.soldout ? "" : '<p class="calfoot">Τα sold out κρύβονται — άνοιξε το «Δείξε και τα sold out» για να τα δεις.</p>');
 }
